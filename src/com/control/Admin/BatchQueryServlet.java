@@ -26,17 +26,14 @@ public class BatchQueryServlet extends HttpServlet {
             String Scollege = request.getParameter("Scollege");
             String Smajor = request.getParameter("Smajor");
             String Sclass = request.getParameter("Sclass");
-            System.out.println(Scollege);
-            System.out.println(Smajor);
-            System.out.println(Sclass);
             Pair<DateCheck, ArrayList<Student>> res = dao.GetDataOnStudent(Scollege,Smajor,Sclass);
             DateCheck tmp1 = res.getKey();
             ArrayList<Student> tmp2 = res.getValue();
             String tmp3 = JSON.toJSONString(tmp1);
             String tmp4 = JSON.toJSONString(tmp2);
             PrintWriter out = response.getWriter();
-            out.println(tmp3);
-            out.println(tmp4);
+            System.out.println(tmp3);
+            System.out.println(tmp4);
         }
     }
 
