@@ -8,7 +8,7 @@
             maxTotal="8"
             password="admin"
             username="root"
-            url="jdbc:mysql://47.115.8.203:3306/healthycode?serverTimezone=UTC"
+            url="jdbc:mysql://47.115.8.203:3306/healthycode?characterEncoding=UTF-8"
             driverClassName="com.mysql.cj.jdbc.Driver"
             type="javax.sql.DataSource"
             name="jdbc/healthycode"/>
