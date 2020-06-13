@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "ModifyServlet", urlPatterns = "/modify.do")
@@ -28,8 +29,9 @@ public class ModifyServlet extends HttpServlet {
             if(((initiative.equals("院级管理员") || initiative.equals("校级管理员")) && passive.equals("系统管理员")) ||
                     (initiative.equals("校级管理员") && passive.equals("院级管理员")) || initiative.equals(passive)) {
                 message = "没有权限!";
-                request.setAttribute("result", message);
-                getServletContext().getRequestDispatcher("/#").forward(request, response);
+                HttpSession session = request.getSession();
+                session.setAttribute("result", message);
+                request.getRequestDispatcher("/#").forward(request, response);
             }
             else {
                 admin New = new admin();
@@ -37,13 +39,15 @@ public class ModifyServlet extends HttpServlet {
                 New.setApassword(request.getParameter("Apassword"));
                 if(dao.ChangeAdminPassword(New)) {
                     message = "修改成功!";
-                    request.setAttribute("result", message);
-                    getServletContext().getRequestDispatcher("/#").forward(request, response);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("result", message);
+                    request.getRequestDispatcher("/#").forward(request, response);
                 }
                 else {
                     message = "修改失败!";
-                    request.setAttribute("result", message);
-                    getServletContext().getRequestDispatcher("/#").forward(request, response);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("result", message);
+                    request.getRequestDispatcher("/#").forward(request, response);
                 }
             }
         }
@@ -60,13 +64,15 @@ public class ModifyServlet extends HttpServlet {
             New.setShealth(request.getParameter("Shealth"));
             if(dao.ModifyStudent(New)) {
                 message = "修改成功!";
-                request.setAttribute("result", message);
-                getServletContext().getRequestDispatcher("/#").forward(request, response);
+                HttpSession session = request.getSession();
+                session.setAttribute("result", message);
+                request.getRequestDispatcher("/#").forward(request, response);
             }
             else {
                 message = "修改失败!";
-                request.setAttribute("result", message);
-                getServletContext().getRequestDispatcher("/#").forward(request, response);
+                HttpSession session = request.getSession();
+                session.setAttribute("result", message);
+                request.getRequestDispatcher("/#").forward(request, response);
             }
         }
         //更改教师信息
@@ -80,13 +86,15 @@ public class ModifyServlet extends HttpServlet {
             New.setThealth(request.getParameter("Thealth"));
             if(dao.ModifyTeacher(New)) {
                 message = "修改成功!";
-                request.setAttribute("result", message);
-                getServletContext().getRequestDispatcher("/#").forward(request, response);
+                HttpSession session = request.getSession();
+                session.setAttribute("result", message);
+                request.getRequestDispatcher("/#").forward(request, response);
             }
             else {
                 message = "修改失败!";
-                request.setAttribute("result", message);
-                getServletContext().getRequestDispatcher("/#").forward(request, response);
+                HttpSession session = request.getSession();
+                session.setAttribute("result", message);
+                request.getRequestDispatcher("/#").forward(request, response);
             }
         }
     }

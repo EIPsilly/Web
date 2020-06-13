@@ -32,7 +32,8 @@ public class LoginServlet extends HttpServlet {
                 }
                 else {
                     message = "学号或密码错误!";
-                    request.setAttribute("result", message);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("result", message);
                     request.getRequestDispatcher("/#").forward(request, response);
                 }
             }
@@ -41,7 +42,8 @@ public class LoginServlet extends HttpServlet {
                 System.out.println("result=" + res);
                 if(res == 0) {
                     message = "工号或密码错误!";
-                    request.setAttribute("result", message);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("result", message);
                     request.getRequestDispatcher("/Login.html").forward(request, response);
                 }
                 else if(res == 1) { // 院级管理员
@@ -60,7 +62,7 @@ public class LoginServlet extends HttpServlet {
                     message = "系统管理员";
                     HttpSession session = request.getSession();
                     session.setAttribute("identity", message);
-                    request.getRequestDispatcher("/Administrator.jsp").forward(request, response);
+                    request.getRequestDispatcher("Administrator.jsp").forward(request, response);
                 }
             }
             else if("teacher".equals(identity)) {
@@ -72,7 +74,8 @@ public class LoginServlet extends HttpServlet {
                 }
                 else {
                     message = "学号或密码错误!";
-                    request.setAttribute("result", message);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("result", message);
                     request.getRequestDispatcher("/Login.html").forward(request, response);
                 }
             }

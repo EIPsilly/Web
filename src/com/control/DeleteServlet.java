@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "DeleteServlet", urlPatterns = "/delete.do")
@@ -22,13 +23,15 @@ public class DeleteServlet extends HttpServlet {
             String Sid = request.getParameter("Sid");
             if(dao.DeleteStudent(Sid)) {
                 message = "删除成功!";
-                request.setAttribute("result", message);
-                getServletContext().getRequestDispatcher("/#").forward(request, response);
+                HttpSession session = request.getSession();
+                session.setAttribute("result", message);
+                request.getRequestDispatcher("/#").forward(request, response);
             }
             else {
                 message = "删除失败!";
-                request.setAttribute("result", message);
-                getServletContext().getRequestDispatcher("/#").forward(request, response);
+                HttpSession session = request.getSession();
+                session.setAttribute("result", message);
+                request.getRequestDispatcher("/#").forward(request, response);
             }
         }
         else {
@@ -36,19 +39,22 @@ public class DeleteServlet extends HttpServlet {
             String Trole = request.getParameter("Trole");
             if(Trole.equals("系统管理员")) {
                 message = "没有权限!";
-                request.setAttribute("result", message);
-                getServletContext().getRequestDispatcher("/#").forward(request, response);
+                HttpSession session = request.getSession();
+                session.setAttribute("result", message);
+                request.getRequestDispatcher("/#").forward(request, response);
             }
             else {
                 if(dao.DeleteAdmin(Tid) && dao.DeleteTeacher(Tid)) {
                     message = "删除成功!";
-                    request.setAttribute("result", message);
-                    getServletContext().getRequestDispatcher("/#").forward(request, response);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("result", message);
+                    request.getRequestDispatcher("/#").forward(request, response);
                 }
                 else {
                     message = "删除失败!";
-                    request.setAttribute("result", message);
-                    getServletContext().getRequestDispatcher("/#").forward(request, response);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("result", message);
+                    request.getRequestDispatcher("/#").forward(request, response);
                 }
             }
         }
