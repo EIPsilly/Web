@@ -337,7 +337,7 @@ public class AdminDao extends BaseDao{
     }
     //学生信息修改
     public Boolean ModifyStudent(Student student) {
-        String sqlStr = "UPDATE Student SET Sname = ?, Sgid = ?, Scollege = ?, Smajor = ?, Sclass = ?" +
+        String sqlStr = "UPDATE student SET Sname = ?, Sgid = ?, Scollege = ?, Smajor = ?, Sclass = ?" +
                 ",Shealth = ?, Sdate = ?, Stoday = ? WHERE Sid = ?";
         try(Connection conn = dataSource.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sqlStr)) {
@@ -359,7 +359,7 @@ public class AdminDao extends BaseDao{
     }
     //教师信息修改
     public Boolean ModifyTeacher(Teacher teacher) {
-        String sqlStr = "UPDATE Teacher SET Tname = ?, Tcollege = ?, Trole = ?," +
+        String sqlStr = "UPDATE teacher SET Tname = ?, Tcollege = ?, Trole = ?," +
                 " Thealth = ?, Tdate = ?, Ttoday = ? WHERE Tid = ?";
         try(Connection conn = dataSource.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sqlStr)) {
@@ -379,7 +379,7 @@ public class AdminDao extends BaseDao{
     }
     //学生单体添加
     public Boolean AddStudent(Student student) {
-        String sqlStr = "INSERT INTO Student values('"+student.getSid()+"','"+student.getSname()+"','"+student.getSidcard()+
+        String sqlStr = "INSERT INTO student values('"+student.getSid()+"','"+student.getSname()+"','"+student.getSidcard()+
                 "','"+student.getScollege()+"','"+student.getSmajor()+"','"+student.getSclass()+
                 "','"+student.getShealth()+"','"+student.getSdate()+"','"+student.getStoday()+"')";
         try(Connection conn = dataSource.getConnection();
@@ -410,21 +410,33 @@ public class AdminDao extends BaseDao{
     //学生群体添加
     public Boolean AddmoreStudent(ArrayList<Student> students) {
         String sqlStr = null;
-        try(Connection conn = dataSource.getConnection();
-            Statement st = conn.createStatement()) {
-            st.setMaxRows(20);
-            for(Student student : students) {
-                sqlStr = "INSERT INTO Student values('"+student.getSid()+"','"+student.getSname()+"','"+student.getSidcard()+
-                        "','"+student.getScollege()+"','"+student.getSmajor()+"','"+student.getSclass()+
-                        "', '"+student.getShealth()+"','"+student.getSdate()+"','"+student.getStoday()+"')";
-                st.executeUpdate(sqlStr);
-            }
-            return true;
-        } catch (SQLException se) {
+        Connection conn = null;
+        Statement st = null;
+        try {
+            conn = dataSource.getConnection();
+            st = conn.createStatement();
+        }
+        catch (SQLException se) {
+            System.out.println("连接");
             se.printStackTrace();
             return false;
         }
+//        st.setMaxRows(20);
+        for(Student student : students) {
+            try {
+                sqlStr = "INSERT INTO student values('" + student.getSid() + "','" + student.getSname() + "','" + student.getSidcard() +
+                        "','" + student.getScollege() + "','" + student.getSmajor() + "','" + student.getSclass() +
+                        "','" + student.getShealth() + "','" + student.getSdate() + "','" + student.getStoday() + "')";
+                st.executeUpdate(sqlStr);
+            }
+            catch (SQLException se) {
+                System.out.println("添加");
+                se.printStackTrace();
+            }
+        }
+        return true;
     }
+
     //教师群体添加
     public Boolean AddmoreTeacher(ArrayList<Teacher> teachers) {
         String sqlStr = null;
@@ -444,7 +456,7 @@ public class AdminDao extends BaseDao{
     }
     //数据增加
     public Boolean AddData(DateCheck data) {
-        String sqlStr = "INSERT INTO date values('"+data.getDate()+"','"+data.getTsum()+"','"+data.getTfinish()+
+        String sqlStr = "INSERT INTO data values('"+data.getDate()+"','"+data.getTsum()+"','"+data.getTfinish()+
                 "','"+data.getSsum()+"','"+data.getSfinish()+"','"+data.getTgreen()+
                 "','"+data.getTyellow()+"','"+data.getTred()+"','"+data.getSgreen()+"','"+data.getSyellow()
                 +"','"+data.getSred()+"')";
