@@ -35,8 +35,10 @@ public class BatchQueryServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             System.out.println(tmp3);
             System.out.println(tmp4);
+            out.print("[" + tmp3 + ",");
+            out.print(tmp4 + "]");
         }
-        else {
+        else if (identity.equals("teacher")) {
             String Tcollege = request.getParameter("Tcollege");
             Pair<DateCheck, ArrayList<Teacher>> res = dao.GetDataOnTeacher(Tcollege);
             DateCheck tmp1 = res.getKey();
@@ -46,6 +48,8 @@ public class BatchQueryServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             System.out.println(tmp3);
             System.out.println(tmp4);
+            out.print("[" + tmp3 + ",");
+            out.print(tmp4 + "]");
         }
     }
 
