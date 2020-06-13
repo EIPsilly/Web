@@ -593,7 +593,7 @@ public class AdminDao extends BaseDao{
     public Pair<DateCheck, ArrayList<Teacher>> GetDataOnTeacher(String college) {
         String sqlStr = "SELECT * FROM teacher";
         ArrayList<Teacher> TeaList = new ArrayList<Teacher>();
-        DateCheck dateCheck = null;
+        DateCheck dateCheck = new DateCheck();
         if(college.equals("")) college = null;
         if(college != null) {
             sqlStr = sqlStr + " WHERE Tcollege = '" + college + "'";

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.dao.AdminDao;
 import com.model.DateCheck;
 import com.model.Student;
+import com.model.Teacher;
 import javafx.util.Pair;
 
 import javax.servlet.ServletException;
@@ -34,8 +35,17 @@ public class BatchQueryServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             System.out.println(tmp3);
             System.out.println(tmp4);
-            out.print("[" + tmp3 + ",");
-            out.print(tmp4 + "]");
+        }
+        else {
+            String Tcollege = request.getParameter("Tcollege");
+            Pair<DateCheck, ArrayList<Teacher>> res = dao.GetDataOnTeacher(Tcollege);
+            DateCheck tmp1 = res.getKey();
+            ArrayList<Teacher> tmp2 = res.getValue();
+            String tmp3 = JSON.toJSONString(tmp1);
+            String tmp4 = JSON.toJSONString(tmp2);
+            PrintWriter out = response.getWriter();
+            System.out.println(tmp3);
+            System.out.println(tmp4);
         }
     }
 
