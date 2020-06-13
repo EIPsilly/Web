@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class BatchQueryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        response.setContentType("UTF-8");
+        response.setContentType("text/html;charset=utf-8");
         AdminDao dao = new AdminDao();
         String identity = request.getParameter("identity");
         if (identity.equals("student")) {
@@ -34,6 +34,8 @@ public class BatchQueryServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             System.out.println(tmp3);
             System.out.println(tmp4);
+            out.print("[" + tmp3 + ",");
+            out.print(tmp4 + "]");
         }
     }
 

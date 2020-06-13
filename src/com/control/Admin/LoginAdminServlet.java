@@ -14,6 +14,7 @@ import java.io.IOException;
 public class LoginAdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8");
         String Aid = request.getParameter("Aid");
         String Apassword = request.getParameter("Apassword");
         AdminDao dao = new AdminDao();
@@ -25,7 +26,7 @@ public class LoginAdminServlet extends HttpServlet {
         }
         else {
             request.setAttribute("infor","id或密码错误！");
-            getServletContext().getRequestDispatcher("/AdminLogin.jsp").forward(request,response);
+            response.sendRedirect("/Administrator.html");
         }
 
     }
