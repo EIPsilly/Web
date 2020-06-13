@@ -201,6 +201,7 @@ public class AdminDao extends BaseDao{
                 teacher.setTname(rst.getString("Tname"));
                 teacher.setTidcard(rst.getString("Tidcard"));
                 teacher.setTcollege(rst.getString("Tcollege"));
+                teacher.setTrole(rst.getString("Trole"));
                 teacher.setTdate(rst.getInt("Tdate"));
                 teacher.setThealth(rst.getString("Thealth"));
                 teacher.setTtoday(rst.getInt("Ttoday"));
@@ -625,6 +626,7 @@ public class AdminDao extends BaseDao{
                 teacher.setTname(rst.getString("Tname"));
                 teacher.setTidcard(rst.getString("Tidcard"));
                 teacher.setTcollege(rst.getString("Tcollege"));
+                teacher.setTrole(rst.getString("Trole"));
                 teacher.setTdate(rst.getInt("Tdate"));
                 teacher.setThealth(rst.getString("Thealth"));
                 teacher.setTtoday(rst.getInt("Ttoday"));
