@@ -656,61 +656,44 @@ public class AdminDao extends BaseDao{
             return null;
         }
     }
-    //test
-//    public Pair<DateCheck, ArrayList<Student>> test() {
-//        String sqlStr = "SELECT * FROM student WHERE Scollege = ?";
-//        try(Connection conn = dataSource.getConnection();
-//            PreparedStatement pstmt = conn.prepareStatement(sqlStr);
-//            )
-//        {
-//            pstmt.setString(1,"计算机科学与技术学院");
-//            ResultSet rst = pstmt.executeQuery();
-//            ArrayList<Student> StuList = new ArrayList<Student>();
-//            DateCheck dateCheck = new DateCheck();
-//            int Ssum = 0;
-//            int Sfinish = 0;
-//            int Sred = 0;
-//            int Sgreen = 0;
-//            int Syellow = 0;
-//            System.out.println(sqlStr);
-//            while(rst.next()) {
-//                Ssum++;
-//                System.out.println(Ssum);
-//                if(rst.getInt("Stoday") == 1) {
-//                    Sfinish++;
-//                }
-//                String judge = rst.getString("Shealth");
-//                if("green".equals(judge)) {
-//                    Sgreen++;
-//                }
-//                else if("red".equals(judge)) {
-//                    Sred++;
-//                }
-//                else Syellow++;
-//                Student student = new Student();
-//                student.setSid(rst.getString("Sid"));
-//                student.setSname(rst.getString("Sname"));
-//                student.setSidcard(rst.getString("Sidcard"));
-//                student.setScollege(rst.getString("Scollege"));
-//                student.setSmajor(rst.getString("Smajor"));
-//                student.setSclass(rst.getString("Sclass"));
-//                student.setSdate(rst.getInt("Sdate"));
-//                student.setShealth(rst.getString("Shealth"));
-//                student.setStoday(rst.getInt("Stoday"));
-//                StuList.add(student);
-//            }
-//            dateCheck.setSsum(Ssum);
-//            dateCheck.setSfinish(Sfinish);
-//            dateCheck.setSred(Sred);
-//            dateCheck.setSyellow(Syellow);
-//            dateCheck.setSgreen(Sgreen);
-//            Pair<DateCheck, ArrayList<Student>> data = new Pair<DateCheck, ArrayList<Student>>(dateCheck,StuList);
-//            System.out.println(1);
-//            return data;
-//        }
-//        catch (SQLException e1) {
-//            System.out.println(e1);
-//            return null;
-//        }
-//    }
+    //学院获取专业
+    public ArrayList<String> GetMajor(String college) {
+        ArrayList<String> allMajor = new ArrayList<String>();
+        try(Connection conn = dataSource.getConnection();) {
+            String sqlStr = "SELECT Smajor FROM student WHERE Scollege = '"+college+"'";
+            PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+            System.out.println(sqlStr);
+            ResultSet rst = pstmt.executeQuery();
+            while (rst.next()) {
+                String major = rst.getString("Smajor");
+                if(!allMajor.contains(major)) {
+                    allMajor.add(major);
+                }
+            }
+            return allMajor;
+        }catch (SQLException se) {
+            System.out.println(se);
+            return null;
+        }
+    }
+    //专业获取班级
+    public ArrayList<String> GetClass(String major) {
+        ArrayList<String> allClass = new ArrayList<String>();
+        try(Connection conn = dataSource.getConnection();) {
+            String sqlStr = "SELECT Sclass FROM student WHERE Smajor = '"+major+"'";
+            PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+            System.out.println(sqlStr);
+            ResultSet rst = pstmt.executeQuery();
+            while (rst.next()) {
+                String Class = rst.getString("Sclass");
+                if(!allClass.contains(Class)) {
+                    allClass.add(Class);
+                }
+            }
+            return allClass;
+        }catch (SQLException se) {
+            System.out.println(se);
+            return null;
+        }
+    }
 }
