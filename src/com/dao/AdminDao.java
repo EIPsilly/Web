@@ -125,7 +125,7 @@ public class AdminDao extends BaseDao{
         if(Sname.equals("")) Sname = null;
         if(Sidcard.equals("")) Sidcard = null;
         try(Connection conn = dataSource.getConnection())  {
-            String sqlStr = "SELECT * FROM teacher";
+            String sqlStr = "SELECT * FROM student";
             if(Sid != null || Sname != null || Sidcard != null) {
                 sqlStr += " WHERE ";
                 if(Sid != null) {
