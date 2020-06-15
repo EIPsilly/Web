@@ -1,0 +1,61 @@
+[{
+	"sclass": "1",
+	"scollege": "计算机科学与技术学院",
+	"sdate": 1,
+	"shealth": "red",
+	"sid": "1",
+	"sidcard": "1",
+	"smajor": "1",
+	"sname": "1",
+	"stoday": 0
+}, {
+	"sclass": "2",
+	"scollege": "计算机科学与技术学院",
+	"sdate": 2,
+	"shealth": "green",
+	"sid": "2",
+	"sidcard": "2",
+	"smajor": "2",
+	"sname": "2",
+	"stoday": 1
+}, {
+	"sclass": "3",
+	"scollege": "计算机科学与技术学院",
+	"sdate": 1,
+	"shealth": "green",
+	"sid": "3",
+	"sidcard": "3",
+	"smajor": "3",
+	"sname": "3",
+	"stoday": 0
+}, {
+	"sclass": "4",
+	"scollege": "计算机科学与技术学院",
+	"sdate": 1,
+	"shealth": "green",
+	"sid": "4",
+	"sidcard": "4",
+	"smajor": "4",
+	"sname": "4",
+	"stoday": 1
+}, {
+	"sclass": "5",
+	"scollege": "计算机科学与技术学院",
+	"sdate": 5,
+	"shealth": "green",
+	"sid": "5",
+	"sidcard": "5",
+	"smajor": "5",
+	"sname": "5",
+	"stoday": 1
+}, {
+	"sclass": "6",
+	"scollege": "计算机科学与技术学院",
+	"sdate": 6,
+	"shealth": "green",
+	"sid": "6",
+	"sidcard": "6",
+	"smajor": "6",
+	"sname": "6",
+	"stoday": 1
+}]
