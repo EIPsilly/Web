@@ -14,7 +14,7 @@ import javax.servlet.http.*;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
-@MultipartConfig(location = "C:\\temp",fileSizeThreshold = 1024)
+@MultipartConfig(location = "C:\\Users\\29615\\IdeaProjects\\WEB\\HealthyCode\\web\\test",fileSizeThreshold = 1024)
 @WebServlet(name = "AddServlet", urlPatterns = "/add.do")
 public class AddServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -89,6 +89,7 @@ public class AddServlet extends HttpServlet {
         }
         out.print("ok");
     }
+
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

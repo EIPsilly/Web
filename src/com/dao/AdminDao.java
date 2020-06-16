@@ -432,7 +432,6 @@ public class AdminDao extends BaseDao{
         }
         return true;
     }
-
     //教师群体添加
     public Boolean AddmoreTeacher(ArrayList<Teacher> teachers) {
         String sqlStr = null;
