@@ -7,17 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import com.dao.AdminDao;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/Login.do")
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             request.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html;charset=utf-8");
-            PrintWriter out = response.getWriter();
-
+            response.setContentType("text/html;charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
             String identity = request.getParameter("identity");
             String id = request.getParameter("id");
             String password = request.getParameter("password");
@@ -34,32 +31,38 @@ public class LoginServlet extends HttpServlet {
                     request.getRequestDispatcher("/#").forward(request, response);
                 }
                 else {
-                    out.print("用户名或密码错误");
+                    message = "学号或密码错误!";
+                    HttpSession session = request.getSession();
+                    session.setAttribute("result", message);
+                    request.getRequestDispatcher("/#").forward(request, response);
                 }
             }
             else if("admin".equals(identity)) {
                 int res = dao.LoginAdmin(id, password);
                 System.out.println("result=" + res);
                 if(res == 0) {
-                    out.print("用户名或密码错误");
+                    message = "工号或密码错误!";
+                    HttpSession session = request.getSession();
+                    session.setAttribute("result", message);
+                    request.getRequestDispatcher("/Login.html").forward(request, response);
                 }
                 else if(res == 1) { // 院级管理员
                     message = "院级管理员";
                     HttpSession session = request.getSession();
                     session.setAttribute("identity", message);
-                    out.print("Administrator.jsp");
+                    request.getRequestDispatcher("/Administrator.jsp").forward(request, response);
                 }
                 else if(res == 2) { // 校级管理员
                     message = "校级管理员";
                     HttpSession session = request.getSession();
                     session.setAttribute("identity", message);
-                    out.print("Administrator.jsp");
+                    request.getRequestDispatcher("/Administrator.jsp").forward(request, response);
                 }
                 else if(res == 3) { // 系统管理员
                     message = "系统管理员";
                     HttpSession session = request.getSession();
                     session.setAttribute("identity", message);
-                    out.print("Administrator.jsp");
+                    request.getRequestDispatcher("Administrator.jsp").forward(request, response);
                 }
             }
             else if("teacher".equals(identity)) {
@@ -70,7 +73,10 @@ public class LoginServlet extends HttpServlet {
                     request.getRequestDispatcher("/#").forward(request, response);
                 }
                 else {
-                    out.print("用户名或密码错误!");
+                    message = "学号或密码错误!";
+                    HttpSession session = request.getSession();
+                    session.setAttribute("result", message);
+                    request.getRequestDispatcher("/Login.html").forward(request, response);
                 }
             }
     }
