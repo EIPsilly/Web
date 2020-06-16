@@ -651,6 +651,46 @@ public class AdminDao extends BaseDao{
             return null;
         }
     }
+    //获取学院 - 学生
+    public ArrayList<String> GetCollegeForStudent() {
+        ArrayList<String> allCollege = new ArrayList<String>();
+        try(Connection conn = dataSource.getConnection();) {
+            String sqlStr = "SELECT Scollege FROM student";
+            PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+            System.out.println(sqlStr);
+            ResultSet rst = pstmt.executeQuery();
+            while (rst.next()) {
+                String college = rst.getString("Scollege");
+                if(!allCollege.contains(college)) {
+                    allCollege.add(college);
+                }
+            }
+            return allCollege;
+        }catch (SQLException se) {
+            System.out.println(se);
+            return null;
+        }
+    }
+    //获取学院 - 老师
+    public ArrayList<String> GetCollegeForTeacher() {
+        ArrayList<String> allCollege = new ArrayList<String>();
+        try(Connection conn = dataSource.getConnection();) {
+            String sqlStr = "SELECT Tcollege FROM teacher";
+            PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+            System.out.println(sqlStr);
+            ResultSet rst = pstmt.executeQuery();
+            while (rst.next()) {
+                String college = rst.getString("Tcollege");
+                if(!allCollege.contains(college)) {
+                    allCollege.add(college);
+                }
+            }
+            return allCollege;
+        }catch (SQLException se) {
+            System.out.println(se);
+            return null;
+        }
+    }
     //学院获取专业
     public ArrayList<String> GetMajor(String college) {
         ArrayList<String> allMajor = new ArrayList<String>();
