@@ -30,7 +30,7 @@ public class QueryPeopleServlet extends HttpServlet {
             String tmp = JSON.toJSONString(stulist);
             System.out.println(tmp);
             PrintWriter out = response.getWriter();
-            out.print("[" + tmp + "]");
+            out.print(tmp);
         }
         else {
             String Tid = request.getParameter("Tid");
@@ -40,7 +40,7 @@ public class QueryPeopleServlet extends HttpServlet {
             String tmp = JSON.toJSONString(tealist);
             System.out.println(tmp);
             PrintWriter out = response.getWriter();
-            out.print("[" + tmp + "]");
+            out.print(tmp);
         }
     }
 

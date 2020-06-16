@@ -10,8 +10,6 @@ public class admin {
     private String Aid;
     @JSONField(name = "Apassword")
     private String Apassword;
-    @JSONField(name = "Arole")
-    private String Arole;
     public admin() { }
 
     public String getAid() {
@@ -33,13 +31,5 @@ public class admin {
     private ArrayList<admin> listOfPersons = new ArrayList<admin>();
     public void whenJavaList_thanConvertToJsonCorrect() {
         String jsonOutput= JSON.toJSONString(listOfPersons);
-    }
-
-    public String getArole() {
-        return Arole;
-    }
-
-    public void setArole(String arole) {
-        Arole = arole;
     }
 }

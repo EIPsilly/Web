@@ -378,34 +378,30 @@ public class AdminDao extends BaseDao{
         }
     }
     //学生单体添加
-    public Boolean AddStudent(Student student) {
+    public Boolean AddStudent(Student student) throws SQLException {
         String sqlStr = "INSERT INTO student values('"+student.getSid()+"','"+student.getSname()+"','"+student.getSidcard()+
                 "','"+student.getScollege()+"','"+student.getSmajor()+"','"+student.getSclass()+
                 "','"+student.getShealth()+"','"+student.getSdate()+"','"+student.getStoday()+"')";
-        try(Connection conn = dataSource.getConnection();
-            Statement st = conn.createStatement()) {
-            st.setMaxRows(20);
-            System.out.println(sqlStr);
-            st.executeUpdate(sqlStr);
-            return true;
-        } catch (SQLException se) {
-            se.printStackTrace();
-            return false;
-        }
+        Connection conn = dataSource.getConnection();
+        Statement st = conn.createStatement();
+        st.setMaxRows(20);
+        System.out.println(sqlStr);
+        st.executeUpdate(sqlStr);
+        conn.close();
+        st.close();
+        return true;
     }
     //教师单体添加
-    public Boolean AddTeacher(Teacher teacher) {
+    public Boolean AddTeacher(Teacher teacher) throws SQLException{
         String sqlStr = "INSERT INTO teacher values('"+teacher.getTid()+"','"+teacher.getTname()+"','"+teacher.getTidcard()+"','"+
                 teacher.getTcollege()+"','"+teacher.getTrole()+"','"+teacher.getThealth()+"','"+teacher.getTdate()+"','"+teacher.getTtoday()+"')";
-        try(Connection conn = dataSource.getConnection();
-            Statement st = conn.createStatement()) {
-            st.setMaxRows(20);
-            st.executeUpdate(sqlStr);
-            return true;
-        } catch (SQLException se) {
-            se.printStackTrace();
-            return false;
-        }
+        Connection conn = dataSource.getConnection();
+        Statement st = conn.createStatement();
+        st.setMaxRows(20);
+        st.executeUpdate(sqlStr);
+        conn.close();
+        st.close();
+        return true;
     }
     //学生群体添加
     public Boolean AddmoreStudent(ArrayList<Student> students) {

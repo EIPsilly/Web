@@ -1,4 +1,4 @@
-package com.control;
+package com.control.Admin;
 
 import com.alibaba.fastjson.JSON;
 import com.dao.AdminDao;

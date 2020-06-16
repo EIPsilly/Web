@@ -1,6 +1,7 @@
 package com.control;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.dao.AdminDao;
 import com.model.Student;
@@ -11,8 +12,9 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
-@MultipartConfig(location = "C:\\Users\\29615\\IdeaProjects\\WEB\\HealthyCode\\web\\test",fileSizeThreshold = 1024)
+@MultipartConfig(location = "C:\\temp",fileSizeThreshold = 1024)
 @WebServlet(name = "AddServlet", urlPatterns = "/add.do")
 public class AddServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -21,6 +23,7 @@ public class AddServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         Part p = request.getPart("JsonFile");
+        System.out.println(p.getName());
         String str = "";
         BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream(),"utf-8"));
         String line = "";
@@ -29,9 +32,17 @@ public class AddServlet extends HttpServlet {
         }
         System.out.println(str);
         br.close();
-        JSONArray jArray = JSONArray.parseArray(str);
-        String identify = request.getParameter("idetity");
-        String res = "[";
+        JSONArray jArray = null;
+        try {
+            jArray = JSONArray.parseArray(str);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+            e.printStackTrace(out);
+            return;
+        }
+        String identify = request.getParameter("identity");
         AdminDao dao = new AdminDao();
         for (int i = 0; i < jArray.size(); i++) {
             JSONObject obj = jArray.getJSONObject(i);
@@ -46,16 +57,17 @@ public class AddServlet extends HttpServlet {
                 stu.setShealth(obj.getString("shealth"));
                 stu.setSdate(obj.getInteger("sdate"));
                 stu.setStoday(obj.getInteger("stoday"));
-                if(dao.AddStudent(stu)) {
-                    continue;
-                } else {
-                    if("[".equals(res)) {
-                        res = res + i;
-                    }
-                    else res = res + "," + i;
+                try{
+                    dao.AddStudent(stu);
+                }
+                catch (SQLException se) {
+                    se.printStackTrace();
+                    se.printStackTrace(out);
+                    return;
                 }
             }
-            else {
+            else if ("teacher".equals(identify))
+            {
                 Teacher teacher = new Teacher();
                 teacher.setTid(obj.getString("tid"));
                 teacher.setTname(obj.getString("tname"));
@@ -65,19 +77,17 @@ public class AddServlet extends HttpServlet {
                 teacher.setThealth(obj.getString("thealth"));
                 teacher.setTdate(obj.getInteger("tdate"));
                 teacher.setTtoday(obj.getInteger("ttoday"));
-                if(dao.AddTeacher(teacher)) {
-                    continue;
-                } else {
-                    if("[".equals(res)) {
-                        res = res + i;
-                    }
-                    else res = res + "," + i;
+                try{
+                    dao.AddTeacher(teacher);
+                }
+                catch (SQLException se) {
+                    se.printStackTrace();
+                    se.printStackTrace(out);
+                    return;
                 }
             }
         }
-        res = res + "]";
-        System.out.println(res);
-        out.print(res);
+        out.print("ok");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

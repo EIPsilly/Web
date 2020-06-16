@@ -12,6 +12,7 @@
     <form id = "form1">
         <input type="hidden" name = "identity" value = "student">
         <input type="hidden" name = "pattern" value = "batch">
+        <p>身份：<c:out value = "${identity}"/></p>
         <p style="margin-top: 30px;">批量管理</p>
         <ul>
             <li>
@@ -53,7 +54,7 @@
         <p>单个查询</p>
         <ul>
             <li>
-                <p>学号</p>
+                <p id = "form2_Sno">学号</p>
                 <input type="text" name = "Sid" id = "Sid" placeholder = "请输入学号">
             </li>
             <li>
@@ -96,60 +97,52 @@
         <table id = "statistctable">
             <tr>
                 <th rowspan="2" id = "statistc_show">今日打卡统计：学生&nbsp;&nbsp;</th>
+                <th>总人数</th>
                 <th>绿码</th>
                 <th>黄码</th>
                 <th>红码</th>
-                <th>未打卡</th>
+                <th>已打卡</th>
             </tr>
             <tr>
-                <th id = "greennum">90</th>
-                <th id = "yellownum">90</th>
-                <th id = "rednum">90</th>
-                <th id = "nonenum">90</th>
+                <td id = "totalnum"></td>
+                <td id = "greennum"></td>
+                <td id = "yellownum"></td>
+                <td id = "rednum"></td>
+                <td id = "finishnum"></td>
             </tr>
         </table>
     </div>
     <div id = "showwindow">
-        <table id = "table_student" class = "showtable">
-            <tr>
-                <th>学号</th>
-                <th>姓名</th>
-                <th>身份证</th>
-                <th>学院</th>
-                <th>专业</th>
-                <th>班级</th>
-                <th>健康状况</th>
-                <th>连续打卡天数</th>
-                <th>是否打卡</th>
-                <th>操作</th>
-            </tr>
+        <table class = "showtable" id = "table1">
+            <tbody id = "table_student">
+                <tr>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>身份证</th>
+                    <th>学院</th>
+                    <th>专业</th>
+                    <th>班级</th>
+                    <th>健康状况</th>
+                    <th>连续打卡天数</th>
+                    <th>是否打卡</th>
+                    <th>操作</th>
+                </tr>
+            </tbody>
         </table>
-        <table id = "table_teacher" class = "showtable" style="display: none;">
-            <tr>
-                <th>工号</th>
-                <th>姓名</th>
-                <th>身份证</th>
-                <th>学院</th>
-                <th>角色</th>
-                <th>健康状况</th>
-                <th>连续打卡天数</th>
-                <th>是否打卡</th>
-                <th>操作</th>
-            </tr>
-            <tr id = "tea_record1">
-                <td>201806060606</td>
-                <td>李四</td>
-                <td>330122199612161716</td>
-                <td>计算机学院</td>
-                <td>院级管理员</td>
-                <td>绿码</td>
-                <td>5</td>
-                <th>是</th>
-                <td>
-                    <a href = "#" onclick="tea_modify(1)">修改</a>
-                    <a href = "#">删除</a>
-                </td>
-            </tr>
+        <table class = "showtable" id = "table2">
+            <tbody id = "table_teacher">
+                <tr>
+                    <th>工号</th>
+                    <th>姓名</th>
+                    <th>身份证</th>
+                    <th>学院</th>
+                    <th>角色</th>
+                    <th>健康状况</th>
+                    <th>连续打卡天数</th>
+                    <th>是否打卡</th>
+                    <th>操作</th>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>

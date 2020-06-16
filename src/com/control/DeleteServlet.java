@@ -25,13 +25,13 @@ public class DeleteServlet extends HttpServlet {
                 message = "删除成功!";
                 HttpSession session = request.getSession();
                 session.setAttribute("result", message);
-                request.getRequestDispatcher("/test.jsp").forward(request, response);
+                request.getRequestDispatcher("/DeleteTest.jsp").forward(request, response);
             }
             else {
                 message = "删除失败!";
                 HttpSession session = request.getSession();
                 session.setAttribute("result", message);
-                request.getRequestDispatcher("/test.jsp").forward(request, response);
+                request.getRequestDispatcher("/DeleteTest.jsp").forward(request, response);
             }
         }
         else {
@@ -41,20 +41,20 @@ public class DeleteServlet extends HttpServlet {
                 message = "没有权限!";
                 HttpSession session = request.getSession();
                 session.setAttribute("result", message);
-                request.getRequestDispatcher("/test.jsp").forward(request, response);
+                request.getRequestDispatcher("/DeleteTest.jsp").forward(request, response);
             }
             else {
                 if(dao.DeleteAdmin(Tid) && dao.DeleteTeacher(Tid)) {
                     message = "删除成功!";
                     HttpSession session = request.getSession();
                     session.setAttribute("result", message);
-                    request.getRequestDispatcher("/test.jsp").forward(request, response);
+                    request.getRequestDispatcher("/DeleteTest.jsp").forward(request, response);
                 }
                 else {
                     message = "删除失败!";
                     HttpSession session = request.getSession();
                     session.setAttribute("result", message);
-                    request.getRequestDispatcher("/test.jsp").forward(request, response);
+                    request.getRequestDispatcher("/DeleteTest.jsp").forward(request, response);
                 }
             }
         }

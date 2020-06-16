@@ -1,0 +1,50 @@
+[{
+	"tid": "1",
+	"tcollege": "计算机科学与技术学院",
+	"tdate": 1,
+	"thealth": "red",
+	"tidcard": "1",
+	"tname": "1",
+	"ttoday": 0,
+	"trole":"院级管理员"
+},
+{
+	"tid": "2",
+	"tcollege": "计算机科学与技术学院",
+	"tdate": 2,
+	"thealth": "green",
+	"tidcard": "2",
+	"tname": "2",
+	"ttoday": 0,
+	"trole":"院级管理员"
+},
+{
+	"tid": "3",
+	"tcollege": "计算机科学与技术学院",
+	"tdate": 3,
+	"thealth": "green",
+	"tidcard": "3",
+	"tname": "3",
+	"ttoday": 3,
+	"trole":"校级管理员"
+},
+{
+	"tid": "4",
+	"tcollege": "计算机科学与技术学院",
+	"tdate": 4,
+	"thealth": "green",
+	"tidcard": "4",
+	"tname": "4",
+	"ttoday": 4,
+	"trole":"校级管理员"
+},
+{
+	"tid": "5",
+	"tcollege": "计算机科学与技术学院",
+	"tdate": 5,
+	"thealth": "yellow",
+	"tidcard": "5",
+	"tname": "5",
+	"ttoday": 0,
+	"trole":"校级管理员"
+}]
