@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import com.dao.AdminDao;
+import com.model.Student;
+import com.model.Teacher;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/Login.do")
 public class LoginServlet extends HttpServlet {
@@ -28,9 +30,12 @@ public class LoginServlet extends HttpServlet {
             String message = null;
             if("student".equals(identity)) {
                 if(dao.LoginStudent(id,password)) {
-                    message = "登录成功!";
                     HttpSession session = request.getSession();
                     session.setAttribute("identity", "student");
+                    Student stu = dao.findStudent(id,null,null).get(0);
+                    session.setAttribute("id", stu.getSid());
+                    session.setAttribute("name", stu.getSname());
+                    session.setAttribute("idcard", stu.getSidcard());
                     out.print("control.jsp");
                 }
                 else {
@@ -39,7 +44,6 @@ public class LoginServlet extends HttpServlet {
             }
             else if("admin".equals(identity)) {
                 int res = dao.LoginAdmin(id, password);
-                System.out.println("result=" + res);
                 if(res == 0) {
                     out.print("用户名或密码错误");
                 }
@@ -67,7 +71,11 @@ public class LoginServlet extends HttpServlet {
                     message = "登录成功!";
                     HttpSession session = request.getSession();
                     session.setAttribute("identity", "teacher");
-                    response.sendRedirect("control.jsp");
+                    Teacher tea = dao.findTeacher(id,null,null).get(0);
+                    session.setAttribute("id", tea.getTid());
+                    session.setAttribute("name", tea.getTname());
+                    session.setAttribute("idcard", tea.getTidcard());
+                    out.print("control.jsp");
                 }
                 else {
                     out.print("用户名或密码错误!");

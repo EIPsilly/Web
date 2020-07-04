@@ -48,11 +48,16 @@ public class RecordServlet extends HttpServlet {
             if(stu.getStoday() == 1) {//已打卡
                 String message = "已打卡！";
                 out.print(message);
+                return;
             }
             else {
                 stu.setStoday(1);
             }
-            if(color.equals("green")) {
+            if(stu.getShealth().equals("null")) {
+                stu.setShealth(color);
+                stu.setSdate((color.equals("green") ? 1 : 0));
+            }
+            else if(color.equals("green")) {
                 if(stu.getShealth().equals("green")) {
                     stu.setSdate(stu.getSdate() + 1);
                 }
@@ -86,6 +91,7 @@ public class RecordServlet extends HttpServlet {
                 }
             }
             if(dao.ModifyStudent(stu)) {
+                color = stu.getShealth();
                 Date d = new Date();
                 DateCheck today = dao2.GetDataByDate((java.sql.Date) d);
                 today.setSfinish(today.getTfinish() + 1);
@@ -109,7 +115,7 @@ public class RecordServlet extends HttpServlet {
                 out.print("个人数据修改失败");
             }
         }
-        else if(identity.equals("student")) {
+        else if(identity.equals("teacher")) {
             String id = request.getParameter("IDcard");
             AdminDao dao = new AdminDao();
             DataDao dao2 = new DataDao();
@@ -122,7 +128,11 @@ public class RecordServlet extends HttpServlet {
             else {
                 tea.setTtoday(1);
             }
-            if(color.equals("green")) {
+            if(tea.getThealth().equals("null")) {
+                tea.setThealth(color);
+                tea.setTdate((color.equals("green") ? 1 : 0));
+            }
+            else if(color.equals("green")) {
                 if(tea.getThealth().equals("green")) {
                     tea.setTdate(tea.getTdate() + 1);
                 }
@@ -172,7 +182,7 @@ public class RecordServlet extends HttpServlet {
                     out.print("修改成功");
                 }
                 else {
-                    out.print("总数居修改失败");
+                    out.print("总数据修改失败");
                 }
             }
             else {

@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.dao.AdminDao;
+import com.dao.DataDao;
+import com.model.DateCheck;
 import com.model.Student;
 import com.model.Teacher;
 
@@ -14,7 +16,9 @@ import javax.servlet.http.*;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
-@MultipartConfig(location = "C:\\temp",fileSizeThreshold = 1024)
+import java.util.Date;
+
+@MultipartConfig(location = "C:\\Users\\29615\\IdeaProjects\\WEB\\HealthyCode\\web\\test",fileSizeThreshold = 1024)
 @WebServlet(name = "AddServlet", urlPatterns = "/add.do")
 public class AddServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,9 +48,18 @@ public class AddServlet extends HttpServlet {
         }
         String identify = request.getParameter("identity");
         AdminDao dao = new AdminDao();
+        DataDao dao2 = new DataDao();
         for (int i = 0; i < jArray.size(); i++) {
             JSONObject obj = jArray.getJSONObject(i);
             if ("student".equals(identify)) {
+                Date d = new Date();
+                DateCheck dd = dao2.GetDataByDate((java.sql.Date) d);
+                dd.setSsum(dd.getSsum() + 1);
+                if(dao2.UpdateData(dd)) { }
+                else {
+                    out.print("添加失败！");
+                    return;
+                }
                 Student stu = new Student();
                 stu.setSid(obj.getString("sid"));
                 stu.setSname(obj.getString("sname"));
@@ -54,9 +67,9 @@ public class AddServlet extends HttpServlet {
                 stu.setScollege(obj.getString("scollege"));
                 stu.setSmajor(obj.getString("smajor"));
                 stu.setSclass(obj.getString("sclass"));
-                stu.setShealth(obj.getString("shealth"));
-                stu.setSdate(obj.getInteger("sdate"));
-                stu.setStoday(obj.getInteger("stoday"));
+                stu.setShealth("null");
+                stu.setSdate(0);
+                stu.setStoday(0);
                 try{
                     dao.AddStudent(stu);
                 }
@@ -68,15 +81,23 @@ public class AddServlet extends HttpServlet {
             }
             else if ("teacher".equals(identify))
             {
+                Date d = new Date();
+                DateCheck dd = dao2.GetDataByDate((java.sql.Date) d);
+                dd.setTsum(dd.getTsum() + 1);
+                if(dao2.UpdateData(dd)) { }
+                else {
+                    out.print("添加失败！");
+                    return;
+                }
                 Teacher teacher = new Teacher();
                 teacher.setTid(obj.getString("tid"));
                 teacher.setTname(obj.getString("tname"));
                 teacher.setTidcard(obj.getString("tidcard"));
                 teacher.setTcollege(obj.getString("tcollege"));
                 teacher.setTrole(obj.getString("trole"));
-                teacher.setThealth(obj.getString("thealth"));
-                teacher.setTdate(obj.getInteger("tdate"));
-                teacher.setTtoday(obj.getInteger("ttoday"));
+                teacher.setThealth("null");
+                teacher.setTdate(0);
+                teacher.setTtoday(0);
                 try{
                     dao.AddTeacher(teacher);
                 }
