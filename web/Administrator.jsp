@@ -13,6 +13,38 @@
     <link type="text/css" rel="stylesheet" href = "Administrator.css">
     <script src = "jquery-3.4.1/jquery-3.4.1.min.js"></script>
     <script>
+
+        // 教师删除
+        function delete_tea(e1,e2){
+            console.log("delete.do?identity=teacher&Tid=" + e1 + "&Trole=" + e2);
+            $.ajax({
+                type :"get",
+                url: "delete.do?identity=teacher&Tid=" + e1 + "&Trole=" + e2,
+                success: function(result){
+                    alert(result);
+                },
+                error: function(e){
+                    console.log(e.status);
+                    console.log(e.responseText);
+                }
+            })
+        }
+
+        // 学生删除
+        function delete_stu(e){
+            console.log("delete.do?identity=student&Sid=" + e);
+            $.ajax({
+                type :"get",
+                url: "delete.do?identity=student&Sid=" + e,
+                success: function(result){
+                    alert(result);
+                },
+                error: function(e){
+                    console.log(e.status);
+                    console.log(e.responseText);
+                }
+            })
+        }
         //身份判断 0学生 1教师
         var identity = 0;
 
@@ -27,6 +59,7 @@
                 if (it.shealth == "green") str2 = "绿码";
                 else if (it.shealth == "yellow") str2 = "黄码";
                 else if (it.shealth == "red") str2 = "红码";
+                str3 = 1;
                 out.append("<tr>\n<td>"
                     + it.sid + "</td>\n<td>"
                     + it.sname + "</td>\n<td>"
@@ -35,7 +68,9 @@
                     + it.sclass + "</td>\n<td>"
                     + str2 + "</td>\n<td>"
                     + it.sdate + "</td>\n<td>"
-                    + str + "</td>\n<td>\n<a href = \"#\" onclick=deleterecord(delete.do?identity=teacher&Tid=" + it.sid + ")>删除</a>\n";
+                    + str + "</td>\n<td>"
+                    + "\n<a onclick=\"delete_stu(" + it.sid + ")\">删除</a>\n"
+                    + "</td>\n</tr>");
             }
         }
 
@@ -51,15 +86,18 @@
                 if (it.thealth == "green") str2 = "绿码";
                 else if (it.thealth == "yellow") str2 = "黄码";
                 else if (it.thealth == "red") str2 = "红码";
-                let str1 = "<tr>\n<td>"
+                var str3 = "identity=teacher&Tid=" + it.tid + "&Trole=" + it.trole;
+                console.log(str3);
+                var str1 = "<tr>\n<td>"
                     + it.tid + "</td>\n<td>"
                     + it.tname + "</td>\n<td>"
                     + it.tcollege + "</td>\n<td id = \"tea_record" + index + "\">"
                     + it.trole + "</td>\n<td>"
                     + str2 + "</td>\n<td>"
                     + it.tdate + "</td>\n<td>"
-                    + str + "</td>\n<td>\n<a href = \"#\" onclick=deleterecord(delete.do?identity=teacher&Tid=" + it.tid + "&Trole" + it.trole + ")>删除</a>\n";
-                if (it.trole == "系统管理员" || it.trole == "院级管理员" || it.trole == "校级管理员") str1 = str1 + "<a href = \"#\" onclick = \"tea_modify(" + index + ")\">修改</a>\n";
+                    + str + "</td>\n<td>"
+                    + "\n<a onclick=\"delete_tea(" + it.tid + "," + it.trole + ")\">删除</a>\n";
+                if (it.trole == "系统管理员" || it.trole == "院级管理员" || it.trole == "校级管理员") str1 = str1 + "<a onclick = \"tea_modify(" + index + ")\">修改</a>\n";
                 str1 = str1 + "</td>\n</tr>\n";
                 out.append(str1);
             }
@@ -78,23 +116,20 @@
             <li>
                 <p>学院</p>
                 <input list = "college_list" id = "college" name = "Scollege" class = "list" placeholder = "请选择学院">
-                <datalist id = "college_list">
-                    <option>请选择学院</option>
+                <datalist id = "college_list" placeholder="请选择学院">
                 </datalist>
             </li>
             <div id = "query_teacher">
                 <li>
                     <p>专业</p>
                     <input list = "major" name = "Smajor" id = "Smajor" class = "list" placeholder = "请选择专业">
-                    <datalist id = "major">
-                        <option>请先选择学院</option>
+                    <datalist id = "major" placeholder="请选择专业">
                     </datalist>
                 </li>
                 <li>
                     <p>班级</p>
                     <input list = "class" name = "Sclass" id = "Sclass" class = "list" placeholder = "请选择班级">
-                    <datalist id = "class">
-                        <option>请先选择专业</option>
+                    <datalist id = "class" placeholder="请选择班级">
                     </datalist>
                 </li>
             </div>
