@@ -205,9 +205,8 @@ public class DataDao extends BaseDao{
             }
         }
         System.out.println(sqlStr);
-        try{
-            Connection conn = dataSource.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sqlStr);){
             ResultSet rst = pstmt.executeQuery();
             int Ssum = 0;
             int Sfinish = 0;
@@ -309,9 +308,10 @@ public class DataDao extends BaseDao{
     //获取学院 - 学生
     public ArrayList<String> GetCollegeForStudent() {
         ArrayList<String> allCollege = new ArrayList<String>();
-        try(Connection conn = dataSource.getConnection();) {
-            String sqlStr = "SELECT Scollege FROM student";
+        String sqlStr = "SELECT Scollege FROM student";
+        try(Connection conn = dataSource.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+        ) {
             System.out.println(sqlStr);
             ResultSet rst = pstmt.executeQuery();
             while (rst.next()) {
@@ -349,9 +349,10 @@ public class DataDao extends BaseDao{
     //学院获取专业
     public ArrayList<String> GetMajor(String college) {
         ArrayList<String> allMajor = new ArrayList<String>();
-        try(Connection conn = dataSource.getConnection();) {
-            String sqlStr = "SELECT Smajor FROM student WHERE Scollege = '"+college+"'";
+        String sqlStr = "SELECT Smajor FROM student WHERE Scollege = '"+college+"'";
+        try(Connection conn = dataSource.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+        ) {
             System.out.println(sqlStr);
             ResultSet rst = pstmt.executeQuery();
             while (rst.next()) {
@@ -369,9 +370,9 @@ public class DataDao extends BaseDao{
     //专业获取班级
     public ArrayList<String> GetClass(String major) {
         ArrayList<String> allClass = new ArrayList<String>();
-        try(Connection conn = dataSource.getConnection();) {
-            String sqlStr = "SELECT Sclass FROM student WHERE Smajor = '"+major+"'";
-            PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+        String sqlStr = "SELECT Sclass FROM student WHERE Smajor = '"+major+"'";
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sqlStr);) {
             System.out.println(sqlStr);
             ResultSet rst = pstmt.executeQuery();
             while (rst.next()) {

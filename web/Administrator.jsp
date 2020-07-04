@@ -177,10 +177,10 @@
         </label>
     </div>
     <div id = "postjson">
-        <form action = "" enctype="multipart/form-data" method="post">
-            <input type="hidden" name = "identity" value = "student">
-            <input type="file" name = "JsonFile">
-            <input type="submit" value="导入学生">
+        <form >
+            <input type="hidden" name = "identity" value = "student" id = "import_identity">
+            <input type="file" name = "JsonFile" id = "import_jsonfile">
+            <input type="button" value="导入学生" id = "import">
         </form>
     </div>
     <div id = "showstatistc">
