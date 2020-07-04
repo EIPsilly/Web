@@ -356,7 +356,7 @@
                 <table cellspacing = "8">
                     <tr>
                         <td>姓名</td>
-                        <td><input name = "Tid" type="text"></td>
+                        <td><input name = "Tname" type="text"></td>
                     </tr>
                     <tr>
                         <td>身份证</td>

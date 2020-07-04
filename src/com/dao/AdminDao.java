@@ -267,6 +267,7 @@ public class AdminDao extends BaseDao{
     }
     //教师信息修改
     public Boolean ModifyTeacher(Teacher teacher) {
+        System.out.println(teacher.getTname() + " " + teacher.getTid() + " " + teacher.getTidcard());
         String sqlStr = "UPDATE teacher SET Tname = ?, Tcollege = ?, Trole = ?," +
                 " Thealth = ?, Tdate = ?, Ttoday = ?, Tidcard = ? WHERE Tid = ?";
         try(Connection conn = dataSource.getConnection();

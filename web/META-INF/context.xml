@@ -7,7 +7,7 @@
             maxIdle="50"
             password="admin"
             username="root"
-            url="jdbc:mysql://47.115.8.203:3306/healthycode?characterEncoding=UTF-8"
+            url="jdbc:mysql://47.115.8.203:3306/healthycode?characterEncoding=UTF-8&amp;useOldAliasMetadataBehavior=true"
             driverClassName="com.mysql.cj.jdbc.Driver"
             type="javax.sql.DataSource"
             name="jdbc/healthycode"/>

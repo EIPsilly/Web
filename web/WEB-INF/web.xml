@@ -6,4 +6,7 @@
     <welcome-file-list>
         <welcome-file>Login.html</welcome-file>
     </welcome-file-list>
+    <listener>
+        <listener-class>com.Listener.Start</listener-class>
+    </listener>
 </web-app>
