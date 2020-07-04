@@ -53,7 +53,7 @@ public class AddServlet extends HttpServlet {
             JSONObject obj = jArray.getJSONObject(i);
             if ("student".equals(identify)) {
                 Date d = new Date();
-                DateCheck dd = dao2.GetDataByDate((java.sql.Date) d);
+                DateCheck dd = dao2.GetDataByDate(d);
                 dd.setSsum(dd.getSsum() + 1);
                 if(dao2.UpdateData(dd)) { }
                 else {
@@ -82,7 +82,7 @@ public class AddServlet extends HttpServlet {
             else if ("teacher".equals(identify))
             {
                 Date d = new Date();
-                DateCheck dd = dao2.GetDataByDate((java.sql.Date) d);
+                DateCheck dd = dao2.GetDataByDate(d);
                 dd.setTsum(dd.getTsum() + 1);
                 if(dao2.UpdateData(dd)) { }
                 else {

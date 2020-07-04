@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 import com.dao.AdminDao;
+import com.dao.DataDao;
 import com.model.Student;
 import com.model.Teacher;
 
@@ -26,6 +28,9 @@ public class LoginServlet extends HttpServlet {
             System.out.println(id);
             System.out.println(password);
             AdminDao dao = new AdminDao();
+//            DataDao dao2 = new DataDao();
+//            Date date = new Date();
+//            dao2.CreateData(date);
             String message = null;
             if("student".equals(identity)) {
                 if(dao.LoginStudent(id,password)) {

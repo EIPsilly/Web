@@ -32,7 +32,7 @@ public class DeleteServlet extends HttpServlet {
             if(dao.DeleteStudent(Sid)) {
                 Student stu = dao.findStudent(Sid, null, null).get(0);
                 Date date = new Date();
-                DateCheck d = dao2.GetDataByDate((java.sql.Date) date);
+                DateCheck d = dao2.GetDataByDate(date);
                 if(stu.getStoday() == 1) {
                     d.setSfinish(d.getSfinish() - 1);
                     String health = stu.getShealth();
@@ -72,7 +72,7 @@ public class DeleteServlet extends HttpServlet {
                 if(dao.DeleteAdmin(Tid) && dao.DeleteTeacher(Tid)) {
                     Teacher tea = dao.findTeacher(Tid, null, null).get(0);
                     Date date = new Date();
-                    DateCheck d = dao2.GetDataByDate((java.sql.Date) date);
+                    DateCheck d = dao2.GetDataByDate(date);
                     if(tea.getTtoday() == 1) {
                         d.setTfinish(d.getTfinish() - 1);
                         String health = tea.getThealth();
@@ -105,7 +105,7 @@ public class DeleteServlet extends HttpServlet {
                 if(dao.DeleteTeacher(Tid)) {
                     Teacher tea = dao.findTeacher(Tid, null, null).get(0);
                     Date date = new Date();
-                    DateCheck d = dao2.GetDataByDate((java.sql.Date) date);
+                    DateCheck d = dao2.GetDataByDate(date);
                     if(tea.getTtoday() == 1) {
                         d.setTfinish(d.getTfinish() - 1);
                         String health = tea.getThealth();

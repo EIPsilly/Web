@@ -82,7 +82,9 @@ public class AdminDao extends BaseDao{
             ResultSet rst = pstmt.executeQuery();
             if(rst.next()) { //Sid为唯一标识
                 String Sidcard =  rst.getString("Sidcard");
+                System.out.println(Sidcard);
                 if(Sidcard.substring(Sidcard.length() - 8).equals(password)) {
+                    System.out.println(1);
                     return true;
                 }
                 else return false;

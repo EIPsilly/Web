@@ -93,7 +93,7 @@ public class RecordServlet extends HttpServlet {
             if(dao.ModifyStudent(stu)) {
                 color = stu.getShealth();
                 Date d = new Date();
-                DateCheck today = dao2.GetDataByDate((java.sql.Date) d);
+                DateCheck today = dao2.GetDataByDate(d);
                 today.setSfinish(today.getTfinish() + 1);
                 if(color.equals("green")) {
                     today.setSgreen(today.getSgreen() + 1);
@@ -167,7 +167,7 @@ public class RecordServlet extends HttpServlet {
             }
             if(dao.ModifyTeacher(tea)) {
                 Date d = new Date();
-                DateCheck today = dao2.GetDataByDate((java.sql.Date) d);
+                DateCheck today = dao2.GetDataByDate(d);
                 today.setTfinish(today.getTfinish() + 1);
                 if(color.equals("green")) {
                     today.setTgreen(today.getTgreen() + 1);

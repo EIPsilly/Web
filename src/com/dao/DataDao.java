@@ -4,109 +4,118 @@ import com.model.DateCheck;
 import com.model.Student;
 import com.model.Teacher;
 import javafx.util.Pair;
-
 import java.sql.*;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class DataDao extends BaseDao{
-    //学生天数更新
-    public Boolean UpdateDateStudent(String Sid, String nowhealth) {
-        String sqlStr = "SELECT Sdate, Shealth FROM student WHERE Sid = ?";
+    //  创造新日期
+    public void CreateData(Date date) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String day = df.format(date);
+        String sqlStr = "SELECT * FROM data WHERE Date = '" + day + "'";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+             ResultSet rst = pstmt.executeQuery()) {
+            System.out.println(sqlStr);
+            if (rst.next()) {
+                return;
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        sqlStr = "SELECT * FROM teacher";
+        DateCheck dateCheck = new DateCheck();
+        dateCheck.setDate(date);
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+            ResultSet rst = pstmt.executeQuery()) {
+            System.out.println(sqlStr);
+            int Tsum = 0;
+            int Tfinish = 0;
+            int Tred = 0;
+            int Tgreen = 0;
+            int Tyellow = 0;
+            while (rst.next()) {
+                Tsum++;
+                if (rst.getInt("Ttoday") == 1) {
+                    Tfinish++;
+                }
+                String judge = rst.getString("Thealth");
+                if ("green".equals(judge)) {
+                    Tgreen++;
+                } else if ("red".equals(judge)) {
+                    Tred++;
+                } else Tyellow++;
+            }
+            dateCheck.setTsum(Tsum);
+            dateCheck.setTfinish(Tfinish);
+            dateCheck.setTred(Tred);
+            dateCheck.setTyellow(Tyellow);
+            dateCheck.setTgreen(Tgreen);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        sqlStr = "SELECT * FROM student";
+        try(Connection conn = dataSource.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+            ResultSet rst = pstmt.executeQuery()) {
+                System.out.println(sqlStr);
+                int Ssum = 0;
+                int Sfinish = 0;
+                int Sred = 0;
+                int Sgreen = 0;
+                int Syellow = 0;
+                while(rst.next()) {
+                    Ssum++;
+                    if(rst.getInt("Stoday") == 1) {
+                        Sfinish++;
+                    }
+                    String judge = rst.getString("Shealth");
+                    if("green".equals(judge)) {
+                        Sgreen++;
+                    }
+                    else if("red".equals(judge)) {
+                        Sred++;
+                    }
+                    else Syellow++;
+                }
+                dateCheck.setSsum(Ssum);
+                dateCheck.setSfinish(Sfinish);
+                dateCheck.setSred(Sred);
+                dateCheck.setSyellow(Syellow);
+                dateCheck.setSgreen(Sgreen);
+                AddData(dateCheck);
+            } catch (SQLException e) {
+                    e.printStackTrace();
+            }
+    }
+    // 人物打卡情况更新
+    public void Reset() {
+        String sqlStr = "UPDATE teacher SET Ttoday = '0'";
         try(Connection conn = dataSource.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sqlStr)) {
-            pstmt.setString(1, Sid);
-            System.out.println(sqlStr);
-            ResultSet rst = pstmt.executeQuery();
-            String Shealth = null;
-            int Sdate = 0;
-            if(rst.next()) { //Sid为唯一标识
-                Shealth =  rst.getString("Shealth");
-                Sdate = rst.getInt("Sdate");
-                if("green".equals(nowhealth)) {
-                    if("red".equals(Shealth) && Sdate == 6) {
-                        Sdate = 0;
-                        Shealth = "yellow";
-                    }
-                    else if("yellow".equals(Shealth) && Sdate == 6) {
-                        Sdate = 0;
-                        Shealth = "green";
-                    }
-                    else Sdate++;
-                }
-                else {
-                    Sdate = 0;
-                    if("green".equals(Shealth)) {
-                        Shealth = nowhealth;
-                    }
-                    else if("yellow".equals(Shealth) && "red".equals(nowhealth)){
-                        Shealth = "red";
-                    }
-                }
-            }
-            else {
-                return false;
-            }
-            sqlStr = "UPDATE student SET Sdate = '"+Sdate+"', Shealth = '"+Shealth+"', Stoday='1' WHERE Sid = '"+Sid+"'";
-            PreparedStatement pstmt2 = conn.prepareStatement(sqlStr);
-            System.out.println(sqlStr);
-            pstmt2.executeUpdate();
-            return true;
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-            return false;
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("0点重置状态失败");
         }
-    }
-    //老师天数更新
-    public Boolean UpdateDateTeacher(String Tid, String nowhealth) {
-        String sqlStr = "SELECT Tdate, Thealth FROM teacher WHERE Tid = ?";
+        sqlStr = "UPDATE student SET Stoday = '0'";
         try(Connection conn = dataSource.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sqlStr)) {
-            pstmt.setString(1, Tid);
-            System.out.println(sqlStr);
-            ResultSet rst = pstmt.executeQuery();
-            String Thealth = null;
-            int Tdate = 0;
-            if(rst.next()) { //Sid为唯一标识
-                Thealth =  rst.getString("Thealth");
-                Tdate = rst.getInt("Tdate");
-                if("green".equals(nowhealth)) {
-                    if("red".equals(Thealth) && Tdate == 6) {
-                        Tdate = 0;
-                        Thealth = "yellow";
-                    }
-                    else if("yellow".equals(Thealth) && Tdate == 6) {
-                        Tdate = 0;
-                        Thealth = "green";
-                    }
-                    else Tdate++;
-                }
-                else {
-                    Tdate = 0;
-                    if("green".equals(Thealth)) {
-                        Thealth = nowhealth;
-                    }
-                    else if("yellow".equals(Thealth) && "red".equals(nowhealth)){
-                        Thealth = "red";
-                    }
-                }
-            }
-            else {
-                return false;
-            }
-            sqlStr = "UPDATE teacher SET Tdate = '"+Tdate+"', Thealth = '"+Thealth+"', Ttoday = 1 WHERE Tid = '"+Tid+"'";
-            PreparedStatement pstmt2 = conn.prepareStatement(sqlStr);
-            System.out.println(sqlStr);
-            pstmt2.executeUpdate();
-            return true;
-        } catch (SQLException e1) {
-            e1.printStackTrace();
-            return false;
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("0点重置状态失败");
         }
     }
+
     //数据增加
     public Boolean AddData(DateCheck data) {
-        String sqlStr = "INSERT INTO data values('"+data.getDate()+"','"+data.getTsum()+"','"+data.getTfinish()+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String sqlStr = "INSERT INTO data values('"+df.format(data.getDate())+"','"+data.getTsum()+"','"+data.getTfinish()+
                 "','"+data.getSsum()+"','"+data.getSfinish()+"','"+data.getTgreen()+
                 "','"+data.getTyellow()+"','"+data.getTred()+"','"+data.getSgreen()+"','"+data.getSyellow()
                 +"','"+data.getSred()+"')";
