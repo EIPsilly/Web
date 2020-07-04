@@ -49,7 +49,13 @@ public class QRCodeServlet extends HttpServlet {
             session.setAttribute("message", "今日未打卡！");
             return;
         }
-        int color = 0xFF0080;
+        int color = 0xFF008000;
+        if(health.equals("red")) {
+            color = 0xFFFF0000;
+        }
+        else if(health.equals("yellow")) {
+            color = 0xFFFFFF00;
+        }
         Date now = Calendar.getInstance().getTime();
         BufferedImage code = QREncode(new SimpleDateFormat("MM-dd HH:mm:ss").format(now) + "\n" + name + "\n" + idcard,color);
         String path = this.getServletContext().getRealPath("/images/QRcode") + "\\";

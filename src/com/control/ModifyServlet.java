@@ -55,13 +55,14 @@ public class ModifyServlet extends HttpServlet {
         else if("student".equals(identity)) {
             Student New = new Student();
             New.setSid(request.getParameter("Sid"));
+            Student last = dao.findStudent(New.getSid(), null, null).get(0);
             New.setSname(request.getParameter("Sname"));
             New.setSidcard(request.getParameter("Sidcard"));
             New.setScollege(request.getParameter("Scollege"));
             New.setSmajor(request.getParameter("Smajor"));
             New.setSclass(request.getParameter("Sclass"));
-            New.setStoday(Integer.valueOf(request.getParameter("Stoday")));
-            New.setShealth(request.getParameter("Shealth"));
+            New.setStoday(last.getStoday());
+            New.setShealth(last.getShealth());
             if(dao.ModifyStudent(New)) {
                 message = "修改成功!";
                 HttpSession session = request.getSession();
@@ -79,11 +80,12 @@ public class ModifyServlet extends HttpServlet {
         else if("teacher".equals(identity)) {
             Teacher New = new Teacher();
             New.setTid(request.getParameter("Tid"));
+            Teacher last = dao.findTeacher(New.getTid(), null, null).get(0);
             New.setTname(request.getParameter("Tname"));
             New.setTidcard(request.getParameter("Tidcard"));
             New.setTcollege(request.getParameter("Tcollege"));
-            New.setTtoday(Integer.valueOf(request.getParameter("Ttoday")));
-            New.setThealth(request.getParameter("Thealth"));
+            New.setTtoday(last.getTtoday());
+            New.setThealth(last.getThealth());
             if(dao.ModifyTeacher(New)) {
                 message = "修改成功!";
                 HttpSession session = request.getSession();
