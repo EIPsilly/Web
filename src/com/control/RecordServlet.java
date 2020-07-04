@@ -27,8 +27,8 @@ public class RecordServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String identity = request.getParameter("identity");
         String name = request.getParameter("name");
-        String IDcard = request.getParameter("IDcard");
-        String Sno = request.getParameter("Sno");
+        String idcard = request.getParameter("idcard");
+        String id = request.getParameter("id");
         String Phone = request.getParameter("phone");
         String Leave = request.getParameter("Leave");//是否去过疫区
         String Abroad = request.getParameter("abroad");//是否去过国外
@@ -40,10 +40,9 @@ public class RecordServlet extends HttpServlet {
         if (Contact.equals("Yes") || (HealthyStatus != null && HealthyStatus.length >= 2) || Diagnosis.equals("Yes")) color = "red";
         else if (Leave.equals("Yes") || Abroad.equals("Yes") || (HealthyStatus != null && HealthyStatus.length == 1)) color = "yellow";
         if(identity.equals("student")) {
-            String id = request.getParameter("IDcard");
             AdminDao dao = new AdminDao();
             DataDao dao2 = new DataDao();
-            ArrayList<Student> stulist = dao.findStudent(Sno,name,IDcard);
+            ArrayList<Student> stulist = dao.findStudent(id,name,idcard);
             Student stu = stulist.get(0);
             if(stu.getStoday() == 1) {//已打卡
                 String message = "已打卡！";
@@ -91,6 +90,7 @@ public class RecordServlet extends HttpServlet {
                 }
             }
             if(dao.ModifyStudent(stu)) {
+                System.out.println("修改成功");
                 color = stu.getShealth();
                 Date d = new Date();
                 DateCheck today = dao2.GetDataByDate(d);
@@ -112,14 +112,14 @@ public class RecordServlet extends HttpServlet {
                 }
             }
             else {
+                System.out.println("wu l ");
                 out.print("个人数据修改失败");
             }
         }
         else if(identity.equals("teacher")) {
-            String id = request.getParameter("IDcard");
             AdminDao dao = new AdminDao();
             DataDao dao2 = new DataDao();
-            ArrayList<Teacher> tealist = dao.findTeacher(Sno,name,IDcard);
+            ArrayList<Teacher> tealist = dao.findTeacher(id,name,idcard);
             Teacher tea= tealist.get(0);
             if(tea.getTtoday() == 1) {//已打卡
                 String message = "已打卡！";

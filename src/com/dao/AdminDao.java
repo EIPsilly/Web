@@ -245,7 +245,7 @@ public class AdminDao extends BaseDao{
     }
     //学生信息修改
     public Boolean ModifyStudent(Student student) {
-        String sqlStr = "UPDATE student SET Sname = ?, Sgid = ?, Scollege = ?, Smajor = ?, Sclass = ?" +
+        String sqlStr = "UPDATE student SET Sname = ?, Sidcard = ?, Scollege = ?, Smajor = ?, Sclass = ?" +
                 ",Shealth = ?, Sdate = ?, Stoday = ? WHERE Sid = ?";
         try(Connection conn = dataSource.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sqlStr)) {
@@ -268,7 +268,7 @@ public class AdminDao extends BaseDao{
     //教师信息修改
     public Boolean ModifyTeacher(Teacher teacher) {
         String sqlStr = "UPDATE teacher SET Tname = ?, Tcollege = ?, Trole = ?," +
-                " Thealth = ?, Tdate = ?, Ttoday = ? WHERE Tid = ?";
+                " Thealth = ?, Tdate = ?, Ttoday = ?, Tidcard = ? WHERE Tid = ?";
         try(Connection conn = dataSource.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sqlStr)) {
             pstmt.setString(1, teacher.getTname());
@@ -277,7 +277,8 @@ public class AdminDao extends BaseDao{
             pstmt.setString(4, teacher.getThealth());
             pstmt.setInt(5, teacher.getTdate());
             pstmt.setInt(6, teacher.getTtoday());
-            pstmt.setString(7, teacher.getTid());
+            pstmt.setString(7,teacher.getTidcard());
+            pstmt.setString(8, teacher.getTid());
             pstmt.executeUpdate();
             return true;
         } catch (SQLException se) {

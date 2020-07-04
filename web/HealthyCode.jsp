@@ -15,7 +15,7 @@
     <script type="text/javascript" src="HealthyCode.js"></script>
 </head>
 <body style="background-color :#f6f6f6">
-<form action="QRCode.do" method="POST" onsubmit = "return jump()">
+<form action="record.do" method="POST" onsubmit = "return jump()">
     <div class = "MainBody">
         <img src="images/2.png"/>
         <div class = "Question">
@@ -27,12 +27,12 @@
                 </tr>
                 <tr>
                     <td>身份证</td>
-                    <td><input type="text" name="IDcard" value = "${sessionScope.idcard}"></td>
-
+                    <td><input type="text" name="idcard" value = "${sessionScope.idcard}"></td>
+                    <td><input type="hidden" name="identity" value = "${sessionScope.identity}"></td>
                 </tr>
                 <tr>
                     <td>工号或学号</td>
-                    <td><input type="text" name="Sno" value = "${sessionScope.id}"></td>
+                    <td><input type="text" name="id" value = "${sessionScope.id}"></td>
                 </tr>
                 <tr>
                     <td>手机号</td>
