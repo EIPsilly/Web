@@ -89,7 +89,7 @@ $(document).ready(function () {
             }
         }
     );
-    
+
     //专业更改时候，清空班级已有选择，更新班级选项
     $("#Smajor").change(
         function () {
@@ -329,18 +329,4 @@ function tea_modify(e) {
 //关闭修改页面
 function close_modify() {
     $("#modify_page").css("display", "none");
-}
-
-function deleterecord(e){
-    $.ajax({
-        type :"get",
-        url:e,
-        success: function(result){
-            alert(result);
-        },
-        eoor: function(e){
-            console.log(e.status);
-            console.log(e.responseText);
-        }
-    })
 }
