@@ -30,7 +30,7 @@ public class DeleteServlet extends HttpServlet {
         if(identity.equals("student")) {
             String Sid = request.getParameter("Sid");
             if(dao.DeleteStudent(Sid)) {
-                Student stu = dao.findStudent(Sid, null, null).get(0);
+                Student stu = dao.findStudent(Sid, "", "").get(0);
                 Date date = new Date();
                 DateCheck d = dao2.GetDataByDate(date);
                 if(stu.getStoday() == 1) {
