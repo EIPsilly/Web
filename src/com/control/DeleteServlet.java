@@ -29,24 +29,24 @@ public class DeleteServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         if(identity.equals("student")) {
             String Sid = request.getParameter("Sid");
-            if(dao.DeleteStudent(Sid)) {
-                Student stu = dao.findStudent(Sid, "", "").get(0);
-                Date date = new Date();
-                DateCheck d = dao2.GetDataByDate(date);
-                if(stu.getStoday() == 1) {
-                    d.setSfinish(d.getSfinish() - 1);
-                    String health = stu.getShealth();
-                    if(health.equals("red")) {
-                        d.setSred(d.getSred() - 1);
-                    }
-                    else if(health.equals("yellow")) {
-                        d.setSyellow(d.getSyellow() - 1);
-                    }
-                    else if(health.equals("green")) {
-                        d.setSgreen(d.getSgreen() - 1);
-                    }
+            Student stu = dao.findStudent(Sid, "", "").get(0);
+            Date date = new Date();
+            DateCheck d = dao2.GetDataByDate(date);
+            if(stu.getStoday() == 1) {
+                d.setSfinish(d.getSfinish() - 1);
+                String health = stu.getShealth();
+                if(health.equals("red")) {
+                    d.setSred(d.getSred() - 1);
                 }
-                d.setSsum(d.getSsum() - 1);
+                else if(health.equals("yellow")) {
+                    d.setSyellow(d.getSyellow() - 1);
+                }
+                else if(health.equals("green")) {
+                    d.setSgreen(d.getSgreen() - 1);
+                }
+            }
+            d.setSsum(d.getSsum() - 1);
+            if(dao.DeleteStudent(Sid)) {
                 if(dao2.UpdateData(d)) {
                     message = "删除成功!";
                     out.print(message);
