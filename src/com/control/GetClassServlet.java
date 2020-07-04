@@ -1,6 +1,7 @@
 package com.control;
 
 import com.dao.AdminDao;
+import com.dao.DataDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +20,7 @@ public class GetClassServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         String major = request.getParameter("Smajor");
         System.out.println(major);
-        AdminDao dao = new AdminDao();
+        DataDao dao = new DataDao();
         ArrayList<String> allClass = dao.GetClass(major);
         String tmp = "[";
         for(String Class : allClass) {

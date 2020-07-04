@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 
 @WebServlet(name = "DeleteServlet", urlPatterns = "/delete.do")
 public class DeleteServlet extends HttpServlet {
@@ -24,19 +23,16 @@ public class DeleteServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         if(identity.equals("student")) {
             String Sid = request.getParameter("Sid");
-            try{
-                if (dao.DeleteStudent(Sid))
-                {
-                    out.print("删除成功!");
-                }
+            if(dao.DeleteStudent(Sid)) {
+                message = "删除成功!";
+                out.print(message);
             }
-            catch (SQLException e1) {
-                System.out.println(e1);
-                e1.printStackTrace(out);
-                return;
+            else {
+                message = "删除失败!";
+                out.print(message);
             }
         }
-        else if (identity.equals("teacher")){
+        else {
             String Tid = request.getParameter("Tid");
             String Trole = request.getParameter("Trole");
             if(Trole.equals("系统管理员")) {
@@ -46,13 +42,11 @@ public class DeleteServlet extends HttpServlet {
             else {
                 if(dao.DeleteAdmin(Tid) && dao.DeleteTeacher(Tid)) {
                     message = "删除成功!";
-                    HttpSession session = request.getSession();
-                    session.setAttribute("result", message);
+                    out.print(message);
                 }
                 else {
                     message = "删除失败!";
-                    HttpSession session = request.getSession();
-                    session.setAttribute("result", message);
+                    out.print(message);
                 }
             }
         }

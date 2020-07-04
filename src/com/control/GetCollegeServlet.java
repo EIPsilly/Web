@@ -1,6 +1,7 @@
 package com.control;
 
 import com.dao.AdminDao;
+import com.dao.DataDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +18,8 @@ public class GetCollegeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
-        AdminDao dao = new AdminDao();
+
+        DataDao dao = new DataDao();
         String identity = request.getParameter("identity");
         ArrayList<String> AllCollege = new  ArrayList<String>();
         if(identity.equals("teacher")) {

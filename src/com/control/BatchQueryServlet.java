@@ -2,6 +2,7 @@ package com.control;
 
 import com.alibaba.fastjson.JSON;
 import com.dao.AdminDao;
+import com.dao.DataDao;
 import com.model.DateCheck;
 import com.model.Student;
 import com.model.Teacher;
@@ -21,7 +22,7 @@ public class BatchQueryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=utf-8");
-        AdminDao dao = new AdminDao();
+        DataDao dao = new DataDao();
         String identity = request.getParameter("identity");
         if (identity.equals("student")) {
             String Scollege = request.getParameter("Scollege");

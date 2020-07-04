@@ -1,6 +1,7 @@
 package com.control;
 
 import com.dao.AdminDao;
+import com.dao.DataDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +20,7 @@ public class GetMajorServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         String college = request.getParameter("Scollege");
         System.out.println(college);
-        AdminDao dao = new AdminDao();
+        DataDao dao = new DataDao();
         ArrayList<String> allMajor = dao.GetMajor(college);
         String tmp = "[";
         for(String major : allMajor) {
