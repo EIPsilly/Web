@@ -11,26 +11,26 @@ window.onresize = function () {
     document.documentElement.style.setProperty('--width', width);
 }
 
-$(document).ready(
-    function () {
-        $.ajax({
-            type: "get",
-            url: "getCollege.do?identity=student",
-            success: function (result) {
-                var tmp = jQuery.parseJSON(result);
-                var out = $("#college_list");
-                out.html("");
-                for (let index in tmp){
-                    out.append("<option>" + tmp[index] +"</option>")
-                }
-            },
-            error: function (e) {
-                console.log(e.status);
-                console.log(e.responseText);
-            }
-        })
-    }
-)
+// $(document).ready(
+//     function () {
+//         $.ajax({
+//             type: "get",
+//             url: "getCollege.do?identity=student",
+//             success: function (result) {
+//                 var tmp = jQuery.parseJSON(result);
+//                 var out = $("#college_list");
+//                 out.html("");
+//                 for (let index in tmp){
+//                     out.append("<option>" + tmp[index] +"</option>")
+//                 }
+//             },
+//             error: function (e) {
+//                 console.log(e.status);
+//                 console.log(e.responseText);
+//             }
+//         })
+//     }
+// )
 
 // var stu_table,tea_table;
 
@@ -302,31 +302,40 @@ $(document).ready(function () {
         }
     );
 
-    $("#modify_button").click(
+    function modify_ajax(x){
+        $.ajax({
+            type: "post",
+            data: x,
+            url: "modify.do",
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (e) {
+                console.log(e.status);
+                console.log(e.responseText);
+            }
+        })
+    }
+
+    $("#modify_password").click(
         function () {
-            var x = $("#modify_from").serializeArray();
-            $.ajax({
-                type: "post",
-                data: x,
-                url: "modify.do",
-                success: function (result) {
-                    console.log(result);
-                },
-                error: function (e) {
-                    console.log(e.status);
-                    console.log(e.responseText);
-                }
-            })
+            var x = $("#modify_password_from").serializeArray();
+            modify_ajax(x);
         }
     )
+
+    $("#modify_teacher").click(
+        function () {
+            var x = $("#modify_stu_from").serializeArray();
+            modify_ajax(x);
+        }
+    )
+
+    $("#modify_student").click(
+        function () {
+            var x = $("#modify_tea_from").serializeArray();
+            modify_ajax(x);
+        }
+    )
+
 });
-
-function tea_modify(e) {
-    $("#modify_page").css("display", "block");
-    document.getElementById("passive").value = document.getElementById("tea_record" + e).innerText;
-}
-
-//关闭修改页面
-function close_modify() {
-    $("#modify_page").css("display", "none");
-}

@@ -10,7 +10,7 @@
 <html>
 <head>
     <title>操作页面</title>
-    <link rel = "stylesheet" type="text/css" href = "student.css">
+    <link rel = "stylesheet" type="text/css" href = "control.css">
     <script src = "jquery-3.4.1/jquery-3.4.1.min.js"></script>
 </head>
 <body>

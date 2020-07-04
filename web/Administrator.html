@@ -142,19 +142,85 @@
                     <th>是否打卡</th>
                     <th>操作</th>
                 </tr>
+                <tr>
+                    <a href = "#" onclick="tea_modify(1)">修改</a>
+                </tr>
             </tbody>
         </table>
     </div>
 </div>
-<div id = "modify_page" style="display: none;">
-    <form id = "modify_from">
-        <img src = "images/3.png" style="width: 20px; position: absolute; top:10px; right:10px;" onclick="close_modify()">
-        <input type="hidden" name = "initiative" id = "initiative" value = "系统管理员">
+<div class = "modify_page" style="display: none;" id = "modify_pass_page">
+    <form class = "modify_from" id = "modify_password_from">
+        <img src = "images/3.png" style="width: 20px; position: absolute; top:10px; right:10px;" onclick="close_modify(modify_pass_page)">
+        <input type="hidden" name = "initiative" id = "initiative" value = "校级管理员">
         <input type="hidden" name = "passive" id = "passive">
-        <div id = "modify_password">
+        <div class = "modify_password">
             修改后的密码：<input type="password" name = "Apassword">
-            <input type="submit" value="提交修改" class = "button">
+            <input type="submit" value="提交修改" class = "modify_button" id = "modify_password">
         </div>
+    </form>
+</div>
+<div class = "modify_page" style="display: none;" id = "modify_stu_page">
+    <form class = "modify_from modify_form_stu" id = "modify_stu_from">
+        <img src = "images/3.png" style="width: 20px; position: absolute; top:10px; right:10px;" onclick="close_modify(modify_stu_page)">
+        <input type="hidden" name = "Sid" value = "" id = "modify_Sid">
+        <table cellspacing = "8">
+            <tr>
+                <td>姓名</td>
+                <td><input name = "Sname" type="text"></td>
+            </tr>
+            <tr>
+                <td>身份证</td>
+                <td><input name = "Sidcard" type="text"></td>
+            </tr>
+            <tr>
+                <td>学院</td>
+                <td><input name = "Scollege" type="text"></td>
+            </tr>
+            <tr>
+                <td>专业</td>
+                <td><input name = "Smajor" type="text"></td>
+            </tr>
+            <tr>
+                <td>班级</td>
+                <td><input name = "Sclass" type="text"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center; margin-top: 10px;">
+                    <input type="submit" value="提交修改" class = "modify_button" style="left: 0; top: 0;" id = "modify_student">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!-- style="display: none;"  -->
+<div class = "modify_page" id = "modify_tea_page">
+    <form class = "modify_from modify_form_stu" style = "height:200px;" id = "modify_tea_from">
+        <img src = "images/3.png" style="width: 20px; position: absolute; top:10px; right:10px;" onclick="close_modify(modify_tea_page)">
+        <input type="hidden" name = "Tid" value = "">
+        <table cellspacing = "8">
+            <tr>
+                <td>姓名</td>
+                <td><input name = "Tid" type="text"></td>
+            </tr>
+            <tr>
+                <td>身份证</td>
+                <td><input name = "Tidcard" type="text"></td>
+            </tr>
+            <tr>
+                <td>学院</td>
+                <td><input name = "Tcollege" type="text"></td>
+            </tr>
+            <tr>
+                <td>修改后的密码</td>
+                <td><input type="password" name = "Apassword"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center; margin-top: 10px;">
+                    <input type="submit" value="提交修改" class = "modify_button" style="left: 0; top: 0;" id = "modify_teacher">
+                </td>
+            </tr>
+        </table>
     </form>
 </div>
 </body>

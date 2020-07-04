@@ -18,7 +18,8 @@ body {
 #selection {
     width: 208px;
     display: block;
-    background-color: rgb(255,255,255,0.4);
+    min-height: 100vh;
+    background-color: rgb(255, 255, 255, 0.4);
     position: absolute;
     float: left;
     padding-left: 20px;
@@ -62,18 +63,18 @@ body {
     float: left;
 }
 
-#postjson{
+#postjson {
     position: absolute;
     top: 30px;
     left: 300px;
 }
 
-#showstatistc{
+#showstatistc {
     position: absolute;
-    top:20px;
+    top: 20px;
     /* width:200px;
     margin: 0 auto; */
-    left:720px;
+    left: 720px;
 }
 
 #identity {
@@ -97,7 +98,7 @@ body {
 }
 
 .identity-select-check {
-    background-color: rgb(0,0,0,0.65);
+    background-color: rgb(0, 0, 0, 0.65);
     color: white;
 }
 
@@ -127,33 +128,28 @@ body {
 .showtable td,
 .showtable th {
     padding: 5px 10px;
-    font-size: 17px;
     font-family: Verdana;
     font-weight: 540;
     color: 000;
 }
 
-.showtable tr{
-    background-color: rgb(255,255,255,0.8);
+.showtable tr {
+    background-color: rgb(255, 255, 255, 0.8);
 }
 
-/* .showtable tr:nth-child(2n+1) {
-    background-color: rgb(197, 197, 197);
-} */
-
-#modify_page{
+.modify_page {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgb(0,0,0,0.65);
+    background-color: rgb(0, 0, 0, 0.65);
     z-index: 20;
     /* display: none; */
 }
 
-#modify_from{
+.modify_from {
     position: relative;
     left: 50%;
-    top:50%;
+    top: 50%;
     margin-top: -100px;
     margin-left: -200px;
     width: 400px;
@@ -162,7 +158,7 @@ body {
     border-radius: 10px;
 }
 
-#modify_password{
+.modify_password {
     position: relative;
     top: 45px;
     left: 60px;
@@ -170,13 +166,22 @@ body {
     height: 70px;
 }
 
-#modify_password .button{
-    width:100px;
-    height:40px;
+.modify_button {
+    width: 100px;
+    height: 40px;
     text-shadow: none;
     border: 0;
     border-radius: 10px;
     position: relative;
-    top:20px;
-    left:80px;
+    top: 20px;
+    left: 80px;
+}
+
+.modify_form_stu {
+    height: 250px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }

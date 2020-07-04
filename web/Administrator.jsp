@@ -10,10 +10,46 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <c:set var="Login_identity" value="${sessionScope.identity}"/>
+    <c:if test="${!(Login_identity.equals(\"系统管理员\") || Login_identity.equals(\"院级管理员\") || Login_identity.equals(\"校级管理员\"))}" var = "check">
+        <script>
+            alert("请先登录");
+            window.location.href = "Login.html";
+        </script>
+    </c:if>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href = "Administrator.css">
     <script src = "jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src = "Administrator.js"></script>
     <script>
+
+        function tea_modify(e) {
+            $("#modify_pass_page").css("display","block");
+            document.getElementById("passive").value = document.getElementById("tea_record" + e).innerText;
+        }
+
+        function modify_stu(e){
+            $("#modify_stu_page").css("display","block");
+            e = e.toString();
+            let array = document.getElementById(e).getElementsByTagName("td");
+            let array2 = document.getElementById("modify_stu_from").getElementsByTagName("input");
+            // console.log(array); console.log(array2);
+            for (let i = 0;i<=5;i++)  array2[i].value = array[i].innerText;
+        }
+
+        function modify_tea(e){
+            $("#modify_tea_page").css("display","block");
+            e = e.toString();
+            let array = document.getElementById(e).getElementsByTagName("td");
+            let array2 = document.getElementById("modify_tea_from").getElementsByTagName("input");
+            // console.log(array); console.log(array2);
+            for (let i = 0;i<=3;i++)  array2[i].value = array[i].innerText;
+        }
+
+        //关闭修改页面
+        function close_modify(e) {
+            e.style.display = "none";
+        }
 
         // 教师删除
         function delete_tea(e1,e2){
@@ -46,39 +82,61 @@
                 }
             })
         }
+
         //身份判断 0学生 1教师
         var identity = 0;
 
         //学生表格输出
         function print_student(table) {
-            var out = $("#table_student");
-            out.html("<tr>\n<th>学号</th>\n<th>姓名</th>\n<th>学院</th>\n<th>专业</th>\n<th>班级</th>\n<th>健康状况</th>\n<th>连续打卡天数</th>\n<th>是否打卡</th>\n<th>操作</th></tr>");
+            var out = $("#table_student")
+            <c:choose>
+                <c:when test="${Login_identity.equals(\"系统管理员\")}">
+                    out.html("<tr>\n<th>学号</th>\n<th>姓名</th>\n<th>身份证</th>\n<th>学院</th>\n<th>专业</th>\n<th>班级</th>\n<th>健康状况</th>\n<th>连续打卡天数</th>\n<th>是否打卡</th>\n<th>操作</th>\n</tr>");
+                </c:when>
+                <c:otherwise>
+                    out.html("<tr>\n<th>学号</th>\n<th>姓名</th>\n<th>身份证</th>\n<th>学院</th>\n<th>专业</th>\n<th>班级</th>\n<th>健康状况</th>\n<th>连续打卡天数</th>\n<th>是否打卡</th>\n</tr>");
+                </c:otherwise>
+            </c:choose>
+
             for (let index in table) {
                 var it = table[index];
+                // console.log(typeof (it.sidcard));
                 var str = it.stoday == "1" ? "是" : "否";
                 var str2;
                 if (it.shealth == "green") str2 = "绿码";
                 else if (it.shealth == "yellow") str2 = "黄码";
                 else if (it.shealth == "red") str2 = "红码";
-                str3 = 1;
-                out.append("<tr>\n<td>"
+                else if (it.shealth == "null") str2 = "未申报";
+                var str3 = "<tr id = " + it.sid + ">\n<td>"
                     + it.sid + "</td>\n<td>"
                     + it.sname + "</td>\n<td>"
+                    + it.sidcard + "</td>\n<td>"
                     + it.scollege + "</td>\n<td>"
                     + it.smajor + "</td>\n<td>"
                     + it.sclass + "</td>\n<td>"
                     + str2 + "</td>\n<td>"
                     + it.sdate + "</td>\n<td>"
-                    + str + "</td>\n<td>"
-                    + "\n<a onclick=\"delete_stu(" + it.sid + ")\">删除</a>\n"
-                    + "</td>\n</tr>");
+                    + str + "</td>\n";
+                <c:if test="${Login_identity.equals(\"系统管理员\")}">
+                    str3 += "<td>\n<a href = \"#\" onclick=\"delete_stu(" + it.sid + ")\">删除</a>\n" +
+                                  "<a href = \"#\" onclick=\"modify_stu(" + it.sid + ")\">修改</a>\n" +
+                            "</td>\n";
+                </c:if>
+                out.append(str3 + "</tr>");
             }
         }
 
         //教师表格输出
         function print_teacher(table) {
             var out = $("#table_teacher");
-            out.html("<tr>\n<th>工号</th>\n<th>姓名</th>\n<th>学院</th>\n<th>角色</th>\n<th>健康状况</th>\n<th>连续打卡天数</th>\n<th>是否打卡</th>\n<th>操作</th></tr>");
+            <c:choose>
+                <c:when test="${Login_identity.equals(\"系统管理员\") || Login_identity.equals(\"校级管理员\")}">
+                    out.html("<tr>\n<th>工号</th>\n<th>姓名</th>\n<th>身份证</th>\n<th>学院</th>\n<th>角色</th>\n<th>健康状况</th>\n<th>连续打卡天数</th>\n<th>是否打卡</th>\n<th>操作</th>\n</tr>");
+                </c:when>
+                <c:otherwise>
+                    out.html("<tr>\n<th>工号</th>\n<th>姓名</th>\n<th>身份证</th>\n<th>学院</th>\n<th>角色</th>\n<th>健康状况</th>\n<th>连续打卡天数</th>\n<th>是否打卡</th>\n</tr>");
+                </c:otherwise>
+            </c:choose>
             console.log(table)
             for (let index in table) {
                 var it = table[index];
@@ -87,33 +145,41 @@
                 if (it.thealth == "green") str2 = "绿码";
                 else if (it.thealth == "yellow") str2 = "黄码";
                 else if (it.thealth == "red") str2 = "红码";
+                else if (it.shealth == "null") str2 = "未申报";
                 var str3 = "identity=teacher&Tid=" + it.tid + "&Trole=" + it.trole;
                 console.log(str3);
-                var str1 = "<tr>\n<td>"
+                var str1 = "<tr id = " + it.tid + ">\n<td>"
                     + it.tid + "</td>\n<td>"
                     + it.tname + "</td>\n<td>"
+                    + it.tidcard + "</td>\n<td>"
                     + it.tcollege + "</td>\n<td id = \"tea_record" + index + "\">"
                     + it.trole + "</td>\n<td>"
                     + str2 + "</td>\n<td>"
                     + it.tdate + "</td>\n<td>"
-                    + str + "</td>\n<td>"
-                    + "\n<a onclick=\"delete_tea(" + it.tid + "," + it.trole + ")\">删除</a>\n";
-                if (it.trole == "系统管理员" || it.trole == "院级管理员" || it.trole == "校级管理员") str1 = str1 + "<a onclick = \"tea_modify(" + index + ")\">修改</a>\n";
-                str1 = str1 + "</td>\n</tr>\n";
+                    + str + "</td>\n<td>";
+                <c:choose>
+                    <c:when test="${Login_identity.equals(\"系统管理员\")}">
+                        if (it.trole != "系统管理员") {
+                            str1 = str1 + "\n<a href = \"#\" onclick=\"delete_tea(" + it.tid + "," + it.trole + ")\">删除</a>";
+                            str1 = str1 + "\n<a href = \"#\" onclick = \"modify_tea(" + it.tid + ")\">修改</a>";
+                        }
+                        // else str1 = str1 + " ";
+                    </c:when>
+                    <c:when test="${Login_identity.equals(\"校级管理员\")}">
+                        if (it.trole == "院级管理员"){
+                            str1 = str1 + "\n<a href = \"#\" onclick = \"tea_modify(" + index + ")\">修改密码</a>";
+                        }
+                        // else str1 = str1 + " ";
+                    </c:when>
+                </c:choose>
+                str1 += "\n</td>\n</tr>";
                 out.append(str1);
             }
         }
     </script>
-    <script type="text/javascript" src = "Administrator.js"></script>
     <title>管理员界面</title>
 </head>
 <body>
-    <c:if test="${!(sessionScope.identity.equals(\"系统管理员\") || sessionScope.identity.equals(\"院级管理员\") || sessionScope.identity.equals(\"校级管理员\"))}" var = "check">
-        <script>
-            alert("请先登录");
-            window.location.href = "Login.html";
-        </script>
-    </c:if>
 <div id = "selection">
     <form id = "form1">
         <input type="hidden" name = "identity" value = "student">
@@ -209,42 +275,99 @@
     </div>
     <div id = "showwindow">
         <table id = "table_student" class = "showtable">
-            <tr>
-                <th>学号</th>
-                <th>姓名</th>
-                <th>学院</th>
-                <th>专业</th>
-                <th>班级</th>
-                <th>健康状况</th>
-                <th>连续打卡天数</th>
-                <th>是否打卡</th>
-                <th>操作</th>
-            </tr>
         </table>
         <table id = "table_teacher" class = "showtable" style="display: none;">
-            <tr>
-                <th>工号</th>
-                <th>姓名</th>
-                <th>学院</th>
-                <th>角色</th>
-                <th>健康状况</th>
-                <th>连续打卡天数</th>
-                <th>是否打卡</th>
-                <th>操作</th>
-            </tr>
         </table>
     </div>
 </div>
-<div id = "modify_page" style="display: none;">
-    <form id = "modify_from">
-        <img src = "images/3.png" style="width: 20px; position: absolute; top:10px; right:10px;" onclick="close_modify()">
-        <input type="hidden" name = "initiative" id = "initiative" value = "系统管理员">
-        <input type="hidden" name = "passive" id = "passive">
-        <div id = "modify_password">
-            修改后的密码：<input type="password" name = "Apassword">
-            <input type="button" value="提交修改" class = "button" id = "modify_button">
-        </div>
-    </form>
-</div>
+
+<c:if test="${Login_identity.equals(\"校级管理员\")}">
+    <%--密码修改（校级管理员）--%>
+    <div class = "modify_page" style="display: none;" id = "modify_pass_page">
+        <form class = "modify_from" id = "modify_password_from">
+            <img src = "images/3.png" style="width: 20px; position: absolute; top:10px; right:10px;" onclick="close_modify(modify_pass_page)">
+            <input type="hidden" name = "initiative" id = "initiative" value = "校级管理员">
+            <input type="hidden" name = "passive" id = "passive">
+            <input type="hidden" name = "identity" value = "admin">
+            <div class = "modify_password">
+                修改后的密码：<input type="password" name = "Apassword">
+                <input type="submit" value="提交修改" class = "modify_button" id = "modify_password">
+            </div>
+        </form>
+    </div>
+</c:if>
+
+<c:if test="${Login_identity.equals(\"系统管理员\")}">
+    <%--学生信息修改（系统管理员）--%>
+    <div class = "modify_page" style="display: none;" id = "modify_stu_page">
+        <form class = "modify_from modify_form_stu" id = "modify_stu_from">
+            <img src = "images/3.png" style="width: 20px; position: absolute; top:10px; right:10px;" onclick="close_modify(modify_stu_page)">
+            <input type="hidden" name = "Sid" value = "" id = "modify_Sid">
+            <input type="hidden" name = "identity" value = "student">
+            <table cellspacing = "8">
+                <tr>
+                    <td>姓名</td>
+                    <td><input name = "Sname" type="text"></td>
+                </tr>
+                <tr>
+                    <td>身份证</td>
+                    <td><input name = "Sidcard" type="text"></td>
+                </tr>
+                <tr>
+                    <td>学院</td>
+                    <td><input name = "Scollege" type="text"></td>
+                </tr>
+                <tr>
+                    <td>专业</td>
+                    <td><input name = "Smajor" type="text"></td>
+                </tr>
+                <tr>
+                    <td>班级</td>
+                    <td><input name = "Sclass" type="text"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center; margin-top: 10px;">
+                        <input type="submit" value="提交修改" class = "modify_button" style="left: 0; top: 0;" id = "modify_student">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <%--教师信息修改（系统管理员）--%>
+    <div class = "modify_page" style = "display:none" id = "modify_tea_page">
+        <form class = "modify_from modify_form_stu" style = "height:200px;" id = "modify_tea_from">
+            <img src = "images/3.png" style="width: 20px; position: absolute; top:10px; right:10px;" onclick="close_modify(modify_tea_page)">
+            <input type="hidden" name = "Tid" value = "" id = "modify_Tid">
+            <input type="hidden" name = "identity" value = "teacher">
+            <table cellspacing = "8">
+                <tr>
+                    <td>姓名</td>
+                    <td><input name = "Tid" type="text"></td>
+                </tr>
+                <tr>
+                    <td>身份证</td>
+                    <td><input name = "Tidcard" type="text"></td>
+                </tr>
+                <tr>
+                    <td>学院</td>
+                    <td><input name = "Tcollege" type="text"></td>
+                </tr>
+            </table>
+        </form>
+        <form>
+            <table>
+                <tr>
+                    <td>修改后的密码</td>
+                    <td><input type="password" name = "Apassword"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center; margin-top: 10px;">
+                        <input type="button" value="提交修改" class = "modify_button" style="left: 0; top: 0;" id = "modify_teacher">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</c:if>
 </body>
 </html>
