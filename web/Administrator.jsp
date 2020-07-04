@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: ASUS
@@ -107,6 +108,12 @@
     <title>管理员界面</title>
 </head>
 <body>
+    <c:if test="${!(sessionScope.identity.equals(\"系统管理员\") || sessionScope.identity.equals(\"院级管理员\") || sessionScope.identity.equals(\"校级管理员\"))}" var = "check">
+        <script>
+            alert("请先登录");
+            window.location.href = "Login.html";
+        </script>
+    </c:if>
 <div id = "selection">
     <form id = "form1">
         <input type="hidden" name = "identity" value = "student">

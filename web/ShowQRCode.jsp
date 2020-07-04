@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: ASUS
@@ -11,6 +12,12 @@
     <title>二维码展示页面</title>
 </head>
 <body>
-
+    <c:if test="${sessionScope.codename == null}" var = "check">
+        <script>
+            alert("请先申报健康码");
+            window.location.href = "control.jsp";
+        </script>
+    </c:if>
+    ${sessionScope.codename}
 </body>
 </html>
