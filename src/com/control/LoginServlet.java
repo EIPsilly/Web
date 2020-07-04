@@ -30,8 +30,8 @@ public class LoginServlet extends HttpServlet {
                 if(dao.LoginStudent(id,password)) {
                     message = "登录成功!";
                     HttpSession session = request.getSession();
-                    session.setAttribute("result", message);
-                    request.getRequestDispatcher("/#").forward(request, response);
+                    session.setAttribute("identity", "student");
+                    out.print("control.jsp");
                 }
                 else {
                     out.print("用户名或密码错误");
@@ -66,8 +66,8 @@ public class LoginServlet extends HttpServlet {
                 if(dao.LoginTeacher(id,password)) {
                     message = "登录成功!";
                     HttpSession session = request.getSession();
-                    session.setAttribute("result", message);
-                    request.getRequestDispatcher("/#").forward(request, response);
+                    session.setAttribute("identity", "teacher");
+                    response.sendRedirect("control.jsp");
                 }
                 else {
                     out.print("用户名或密码错误!");

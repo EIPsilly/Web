@@ -36,7 +36,7 @@ public class QRCodeServlet extends HttpServlet {
         else if (Leave.equals("Yes") || Abroad.equals("Yes") || (HealthyStatus != null && HealthyStatus.length == 1)) color = 0xFFFFFF00;
         Date now = Calendar.getInstance().getTime();
      //   BufferedImage code = QREncode(new SimpleDateFormat("MM-dd HH:mm:ss").format(now) + "\n" + name + "\n" + Sno,color);
-        String path = this.getServletContext().getRealPath("/images") + "\\";
+        String path = this.getServletContext().getRealPath("/images/QRcode") + "\\";
         String filename = IDcard +"-"+ new SimpleDateFormat("YYYY-MM-dd-HH-mm-ss-SSS").format(now) + ".jpeg";
         File outputfile = new File(path+filename);
 //        ImageIO.write(code,"jpeg",outputfile);
