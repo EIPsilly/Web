@@ -181,7 +181,18 @@ body {
     height: 250px;
     text-align: center;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#modify_tea_from{
+    display: flex;
+}
+
+#modify_tea_pass_from{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    left:-16px;
 }

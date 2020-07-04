@@ -11,26 +11,26 @@ window.onresize = function () {
     document.documentElement.style.setProperty('--width', width);
 }
 
-// $(document).ready(
-//     function () {
-//         $.ajax({
-//             type: "get",
-//             url: "getCollege.do?identity=student",
-//             success: function (result) {
-//                 var tmp = jQuery.parseJSON(result);
-//                 var out = $("#college_list");
-//                 out.html("");
-//                 for (let index in tmp){
-//                     out.append("<option>" + tmp[index] +"</option>")
-//                 }
-//             },
-//             error: function (e) {
-//                 console.log(e.status);
-//                 console.log(e.responseText);
-//             }
-//         })
-//     }
-// )
+$(document).ready(
+    function () {
+        $.ajax({
+            type: "get",
+            url: "getCollege.do?identity=student",
+            success: function (result) {
+                var tmp = jQuery.parseJSON(result);
+                var out = $("#college_list");
+                out.html("");
+                for (let index in tmp){
+                    out.append("<option>" + tmp[index] +"</option>")
+                }
+            },
+            error: function (e) {
+                console.log(e.status);
+                console.log(e.responseText);
+            }
+        })
+    }
+)
 
 // var stu_table,tea_table;
 
@@ -138,7 +138,7 @@ $(document).ready(function () {
             $("#import").attr("value","学生导入");
             $("#college").attr("value","");
             let obj = document.getElementsByName("identity");
-            for (let i = 0; i < obj.length; i++)
+            for (let i = 0; i < 2; i++)
                 obj[i].value = "student";
             //更新学院选项
             $.ajax({
@@ -180,7 +180,7 @@ $(document).ready(function () {
             $("#import").attr("value","教师导入");
             $("#college").attr("value","");
             let obj = document.getElementsByName("identity");
-            for (let i = 0; i < obj.length; i++)
+            for (let i = 0; i < 2; i++)
                 obj[i].value = "teacher";
             //更新学院选项
             $.ajax({
@@ -326,16 +326,37 @@ $(document).ready(function () {
 
     $("#modify_teacher").click(
         function () {
-            var x = $("#modify_stu_from").serializeArray();
+            var x = $("#modify_tea_from").serializeArray();
             modify_ajax(x);
         }
     )
 
     $("#modify_student").click(
         function () {
-            var x = $("#modify_tea_from").serializeArray();
+            var x = $("#modify_stu_from").serializeArray();
             modify_ajax(x);
         }
     )
 
+    $("#modify_A_tea").click(
+        function () {
+            if ($("#check_pass").prop('checked') == true){
+                var x = $("#modify_tea_pass_from").serializeArray();
+                modify_ajax(x);
+            }
+            x = $("#modify_tea_from").serializeArray();
+            modify_ajax(x);
+        }
+    )
+
+    $("#check_pass").change(
+        function () {
+            if ($("#check_pass").prop('checked') == false){
+                document.getElementById("Apassword").disabled = true;
+            }
+            else{
+                document.getElementById("Apassword").disabled = false;
+            }
+        }
+    )
 });

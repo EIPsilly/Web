@@ -194,34 +194,51 @@
     </form>
 </div>
 <!-- style="display: none;"  -->
-<div class = "modify_page" id = "modify_tea_page">
-    <form class = "modify_from modify_form_stu" style = "height:200px;" id = "modify_tea_from">
-        <img src = "images/3.png" style="width: 20px; position: absolute; top:10px; right:10px;" onclick="close_modify(modify_tea_page)">
-        <input type="hidden" name = "Tid" value = "">
-        <table cellspacing = "8">
-            <tr>
-                <td>姓名</td>
-                <td><input name = "Tid" type="text"></td>
-            </tr>
-            <tr>
-                <td>身份证</td>
-                <td><input name = "Tidcard" type="text"></td>
-            </tr>
-            <tr>
-                <td>学院</td>
-                <td><input name = "Tcollege" type="text"></td>
-            </tr>
-            <tr>
-                <td>修改后的密码</td>
-                <td><input type="password" name = "Apassword"></td>
-            </tr>
-            <tr>
-                <td colspan="2" style="text-align: center; margin-top: 10px;">
-                    <input type="submit" value="提交修改" class = "modify_button" style="left: 0; top: 0;" id = "modify_teacher">
-                </td>
-            </tr>
-        </table>
-    </form>
-</div>
+    <div class = "modify_page" id = "modify_tea_page">
+        <div class = "modify_from modify_form_stu" style = "height:200px;" >
+            <img src = "images/3.png" style="width: 20px; position: absolute; top:10px; right:10px;" onclick="close_modify(modify_tea_page)">
+            <form id = "modify_tea_from">
+                <input type="hidden" name = "identity" value = "teacher">
+                <input type="hidden" name = "Tid" value = "" id = "modify_Tid">
+                <table cellspacing = "8">
+                    <tr>
+                        <td>姓名</td>
+                        <td><input name = "Tid" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>身份证</td>
+                        <td><input name = "Tidcard" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>学院</td>
+                        <td><input name = "Tcollege" type="text"></td>
+                    </tr>
+                    <tr id = "onlyteacher" style="display:none;">
+                        <td colspan="2" style="text-align: center; margin-top: 10px;">
+                            <input type="button" value="提交修改" class = "modify_button" style="left: 0; top: 5px;" id = "modify_teacher">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <form id="modify_tea_pass_from" >
+                <input type="checkbox" name = "modify_password"  id = "check_pass">
+                <input type="hidden" name = "identity" value = "admin">
+                <input type="hidden" name = "initiative" id = "initiative" value = "系统管理员">
+                <input type="hidden" name = "passive" id = "passive">
+                <input type="hidden" name = "Aid" value = "" id = "Aid">
+                <table>
+                    <tr>
+                        <td>修改密码&nbsp;&nbsp;</td>
+                        <td><input type="password" name = "Apassword" id = "Apassword" disabled="true"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center; margin-top: 10px;">
+                            <input type="button" value="提交修改" class = "modify_button" style="left: 0; top: 5px;" id = "modify_A_tea">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

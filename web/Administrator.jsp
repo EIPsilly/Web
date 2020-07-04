@@ -25,7 +25,9 @@
 
         function tea_modify(e) {
             $("#modify_pass_page").css("display","block");
-            document.getElementById("passive").value = document.getElementById("tea_record" + e).innerText;
+            let array = document.getElementById(e).getElementsByTagName("td");
+            document.getElementById("passive").value = array[4].innerText;
+            document.getElementById("Aid").value = array[0].innerText;
         }
 
         function modify_stu(e){
@@ -34,7 +36,7 @@
             let array = document.getElementById(e).getElementsByTagName("td");
             let array2 = document.getElementById("modify_stu_from").getElementsByTagName("input");
             // console.log(array); console.log(array2);
-            for (let i = 0;i<=5;i++)  array2[i].value = array[i].innerText;
+            for (let i = 0;i<=5;i++)  array2[i+1].value = array[i].innerText;
         }
 
         function modify_tea(e){
@@ -43,7 +45,17 @@
             let array = document.getElementById(e).getElementsByTagName("td");
             let array2 = document.getElementById("modify_tea_from").getElementsByTagName("input");
             // console.log(array); console.log(array2);
-            for (let i = 0;i<=3;i++)  array2[i].value = array[i].innerText;
+            for (let i = 0;i<=3;i++)  array2[i+1].value = array[i].innerText;
+            if (array[4].innerText == "普通教师"){
+                $("#onlyteacher").css("display","table-row");
+                $("#modify_tea_pass_from").css("display","none");
+            }
+            else{
+                document.getElementById("passive").value = array[4].innerText;
+                document.getElementById("Aid").value = array[0].innerText;
+                $("#onlyteacher").css("display","none");
+                $("#modify_tea_pass_from").css("display","block");
+            }
         }
 
         //关闭修改页面
@@ -152,7 +164,7 @@
                     + it.tid + "</td>\n<td>"
                     + it.tname + "</td>\n<td>"
                     + it.tidcard + "</td>\n<td>"
-                    + it.tcollege + "</td>\n<td id = \"tea_record" + index + "\">"
+                    + it.tcollege + "</td>\n<td>"
                     + it.trole + "</td>\n<td>"
                     + str2 + "</td>\n<td>"
                     + it.tdate + "</td>\n<td>"
@@ -167,7 +179,7 @@
                     </c:when>
                     <c:when test="${Login_identity.equals(\"校级管理员\")}">
                         if (it.trole == "院级管理员"){
-                            str1 = str1 + "\n<a href = \"#\" onclick = \"tea_modify(" + index + ")\">修改密码</a>";
+                            str1 = str1 + "\n<a href = \"#\" onclick = \"tea_modify(" + it.tid + ")\">修改密码</a>";
                         }
                         // else str1 = str1 + " ";
                     </c:when>
@@ -287,8 +299,9 @@
         <form class = "modify_from" id = "modify_password_from">
             <img src = "images/3.png" style="width: 20px; position: absolute; top:10px; right:10px;" onclick="close_modify(modify_pass_page)">
             <input type="hidden" name = "initiative" id = "initiative" value = "校级管理员">
-            <input type="hidden" name = "passive" id = "passive">
             <input type="hidden" name = "identity" value = "admin">
+            <input type="hidden" name = "passive" id = "passive">
+            <input type="hidden" name = "Aid" value = "" id = "Aid">
             <div class = "modify_password">
                 修改后的密码：<input type="password" name = "Apassword">
                 <input type="submit" value="提交修改" class = "modify_button" id = "modify_password">
@@ -302,8 +315,8 @@
     <div class = "modify_page" style="display: none;" id = "modify_stu_page">
         <form class = "modify_from modify_form_stu" id = "modify_stu_from">
             <img src = "images/3.png" style="width: 20px; position: absolute; top:10px; right:10px;" onclick="close_modify(modify_stu_page)">
-            <input type="hidden" name = "Sid" value = "" id = "modify_Sid">
             <input type="hidden" name = "identity" value = "student">
+            <input type="hidden" name = "Sid" value = "" id = "modify_Sid">
             <table cellspacing = "8">
                 <tr>
                     <td>姓名</td>
@@ -334,39 +347,51 @@
         </form>
     </div>
     <%--教师信息修改（系统管理员）--%>
-    <div class = "modify_page" style = "display:none" id = "modify_tea_page">
-        <form class = "modify_from modify_form_stu" style = "height:200px;" id = "modify_tea_from">
+    <div class = "modify_page" id = "modify_tea_page" style="display: none">
+        <div class = "modify_from modify_form_stu" style = "height:200px;" >
             <img src = "images/3.png" style="width: 20px; position: absolute; top:10px; right:10px;" onclick="close_modify(modify_tea_page)">
-            <input type="hidden" name = "Tid" value = "" id = "modify_Tid">
-            <input type="hidden" name = "identity" value = "teacher">
-            <table cellspacing = "8">
-                <tr>
-                    <td>姓名</td>
-                    <td><input name = "Tid" type="text"></td>
-                </tr>
-                <tr>
-                    <td>身份证</td>
-                    <td><input name = "Tidcard" type="text"></td>
-                </tr>
-                <tr>
-                    <td>学院</td>
-                    <td><input name = "Tcollege" type="text"></td>
-                </tr>
-            </table>
-        </form>
-        <form>
-            <table>
-                <tr>
-                    <td>修改后的密码</td>
-                    <td><input type="password" name = "Apassword"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center; margin-top: 10px;">
-                        <input type="button" value="提交修改" class = "modify_button" style="left: 0; top: 0;" id = "modify_teacher">
-                    </td>
-                </tr>
-            </table>
-        </form>
+            <form id = "modify_tea_from">
+                <input type="hidden" name = "identity" value = "teacher">
+                <input type="hidden" name = "Tid" value = "" id = "modify_Tid">
+                <table cellspacing = "8">
+                    <tr>
+                        <td>姓名</td>
+                        <td><input name = "Tid" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>身份证</td>
+                        <td><input name = "Tidcard" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>学院</td>
+                        <td><input name = "Tcollege" type="text"></td>
+                    </tr>
+                    <tr id = "onlyteacher">
+                        <td colspan="2" style="text-align: center; margin-top: 10px;">
+                            <input type="button" value="提交修改" class = "modify_button" style="left: 0; top: 5px;" id = "modify_teacher">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <form id="modify_tea_pass_from" style="display: none">
+                <input type="checkbox" name = "modify_password" style="position: relative; top:7px; left:-4px;" id = "check_pass">
+                <input type="hidden" name = "identity" value = "admin">
+                <input type="hidden" name = "initiative" id = "initiative" value = "系统管理员">
+                <input type="hidden" name = "passive" id = "passive">
+                <input type="hidden" name = "Aid" value = "" id = "Aid">
+                <table>
+                    <tr>
+                        <td>修改密码&nbsp;&nbsp;</td>
+                        <td><input type="password" name = "Apassword" id = "Apassword" disabled="true"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center; margin-top: 10px;">
+                            <input type="button" value="提交修改" class = "modify_button" style="left: 0; top: 5px;" id = "modify_A_tea">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
     </div>
 </c:if>
 </body>
