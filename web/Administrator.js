@@ -2,7 +2,6 @@ window.onload = function () {
     //获取浏览器宽和高
     var html = document.querySelector('html');
     width = document.defaultView.getComputedStyle(html, null).width;
-    // console.log(width);
     document.documentElement.style.setProperty('--width', width);
 }
 
@@ -12,64 +11,111 @@ window.onresize = function () {
     document.documentElement.style.setProperty('--width', width);
 }
 
-//身份判断 0学生 1教师
-var identity = 0;
-
-//学生表格输出
-function print_student(table) {
-    var out = $("#table_student");
-    out.html("<tr>\n<th>学号</th>\n<th>姓名</th>\n<th>身份证</th>\n<th>学院</th>\n<th>专业</th>\n<th>班级</th>\n<th>健康状况</th>\n<th>连续打卡天数</th>\n<th>是否打卡</th>\n<th>操作</th></tr>");
-    for (let index in table) {
-        var it = table[index];
-        var str = it.stoday == "1" ? "是" : "否";
-        out.append("<tr>\n<td>"
-            + it.sid + "</td>\n<td>"
-            + it.sname + "</td>\n<td>"
-            + it.sidcard + "</td>\n<td>"
-            + it.scollege + "</td>\n<td>"
-            + it.smajor + "</td>\n<td>"
-            + it.sclass + "</td>\n<td>"
-            + it.shealth + "</td>\n<td>"
-            + it.sdate + "</td>\n<td>"
-            + str + "</td>\n<td>\n<a href = \"#\">删除</a>\n</td>\n</tr>\n");
+$(document).ready(
+    function () {
+        $.ajax({
+            type: "get",
+            url: "getCollege.do?identity=student",
+            success: function (result) {
+                var tmp = jQuery.parseJSON(result);
+                var out = $("#college_list");
+                out.html("");
+                for (let index in tmp){
+                    out.append("<option>" + tmp[index] +"</option>")
+                }
+            },
+            error: function (e) {
+                console.log(e.status);
+                console.log(e.responseText);
+            }
+        })
     }
-}
+)
 
-//教师表格输出
-function print_teacher(table) {
-    var out = $("#table_teacher");
-    out.html("<tr>\n<th>工号</th>\n<th>姓名</th>\n<th>身份证</th>\n<th>学院</th>\n<th>角色</th>\n<th>健康状况/th>\n<th>连续打卡天数</th>\n<th>是否打卡</th>\n<th>操作</th></tr>");
-    console.log(table)
-    for (let index in table) {
-        var it = table[index];
-        var str = it.ttoday == "1" ? "是" : "否";
-        let str1 = "<tr>\n<td>"
-            + it.tid + "</td>\n<td>"
-            + it.tname + "</td>\n<td>"
-            + it.tidcard + "</td>\n<td>"
-            + it.tcollege + "</td>\n<td id = \"tea_record" + index + "\">"
-            + it.trole + "</td>\n<td>"
-            + it.thealth + "</td>\n<td>"
-            + it.tdate + "</td>\n<td>"
-            + str + "</td>\n<td>\n<a href = \"#\">删除</a>\n";
-        if (it.trole == "系统管理员" || it.trole == "院级管理员" || it.trole == "校级管理员") str1 = str1 + "<a href = \"#\" onclick = \"tea_modify(" + index + ")\">修改</a>\n";
-        str1 = str1 + "</td>\n</tr>\n";
-        out.append(str1);
-    }
-}
+// var stu_table,tea_table;
 
 $(document).ready(function () {
     $("#student").addClass("identity-select-check");
     $("#teacher").addClass("identity-select-nocheck");
     $("#table2").css("display", "none");
 
-    
+    //（学院、专业、班级）获取焦点时清空内容
+    $("#college").focus(
+        function () {
+            $("#college").prop("value","");
+            $("#Smajor").prop("value","");
+            $("#Sclass").prop("value","");
+        }
+    );
 
+    $("#Smajor").focus(
+        function () {
+            $("#Smajor").prop("value","");
+            $("#Sclass").prop("value","");
+        }
+    );
+
+    $("#Sclass").focus(
+        function () {
+            $("#Sclass").prop("value","");
+        }
+    );
+
+    //学院更改时候，清空专业、班级已有选择，更新专业选项
     $("#college").change(
         function () {
-
+            if (identity == 0)
+            {
+                $("#Smajor").prop("value","");
+                $("#Sclass").prop("value","");
+                console.log($("#college").val());
+                $.ajax({
+                    type: "get",
+                    url: "getmajor.do?Scollege=" + $("#college").val(),
+                    success: function (result) {
+                        var tmp = jQuery.parseJSON(result);
+                        var out = $("#major");
+                        $("#class").html("请先选择专业");
+                        out.html("");
+                        for (let index in tmp){
+                            out.append("<option>" + tmp[index] +"</option>")
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e.status);
+                        console.log(e.responseText);
+                    }
+                })
+            }
         }
-    )
+    );
+    
+    //专业更改时候，清空班级已有选择，更新班级选项
+    $("#Smajor").change(
+        function () {
+            if (identity == 0)
+            {
+                $("#Sclass").prop("value","");
+                console.log($("#Smajor").val());
+                $.ajax({
+                    type: "get",
+                    url: "getClass.do?Smajor=" + $("#Smajor").val(),
+                    success: function (result) {
+                        var tmp = jQuery.parseJSON(result);
+                        var out = $("#class");
+                        out.html("");
+                        for (let index in tmp){
+                            out.append("<option>" + tmp[index] +"</option>")
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e.status);
+                        console.log(e.responseText);
+                    }
+                })
+            }
+        }
+    );
 
     //页面学生和教师切换
     $("#student").click(
@@ -85,14 +131,34 @@ $(document).ready(function () {
             $("#Sname").attr("name", "Sname");
             $("#Sidcard").attr("name", "Sidcard");
             $("#statistc_show").html("今日打卡统计：学生");
-            $("#table2").css("display", "none");
-            $("#table1").css("display", "table");
+            $("#table_teacher").css("display", "none");
+            $("#table_student").css("display", "table");
             $("#form2_Sno").html("学号");
             $("#Sid").attr("placeholder", "请输入学号");
             $("#import").attr("value","学生导入");
+            $("#college").attr("value","");
             let obj = document.getElementsByName("identity");
             for (let i = 0; i < obj.length; i++)
                 obj[i].value = "student";
+            //更新学院选项
+            $.ajax({
+                type: "get",
+                url: "getCollege.do?identity=student",
+                success: function (result) {
+                    var tmp = jQuery.parseJSON(result);
+                    var out = $("#college_list");
+                    $("#major").html("请先选择学院");
+                    $("#class").html("请先选择专业");
+                    out.html("");
+                    for (let index in tmp){
+                        out.append("<option>" + tmp[index] +"</option>")
+                    }
+                },
+                error: function (e) {
+                    console.log(e.status);
+                    console.log(e.responseText);
+                }
+            })
         });
     $("#teacher").click(
         function () {
@@ -108,13 +174,31 @@ $(document).ready(function () {
             $("#Sname").attr("name", "Tname");
             $("#Sidcard").attr("name", "Tidcard");
             $("#statistc_show").html("今日打卡统计：教师");
-            $("#table1").css("display", "none");
-            $("#table2").css("display", "table");
+            $("#table_student").css("display", "none");
+            $("#table_teacher").css("display", "table");
             $("#form2_Sno").html("工号");
             $("#import").attr("value","教师导入");
+            $("#college").attr("value","");
             let obj = document.getElementsByName("identity");
             for (let i = 0; i < obj.length; i++)
                 obj[i].value = "teacher";
+            //更新学院选项
+            $.ajax({
+                type: "get",
+                url: "getCollege.do?identity=teacher",
+                success: function (result) {
+                    var tmp = jQuery.parseJSON(result);
+                    var out = $("#college_list");
+                    out.html("");
+                    for (let index in tmp){
+                        out.append("<option>" + tmp[index] +"</option>")
+                    }
+                },
+                error: function (e) {
+                    console.log(e.status);
+                    console.log(e.responseText);
+                }
+            })
         });
 
     //表单1提交（学院、专业、班级查询）
@@ -122,19 +206,14 @@ $(document).ready(function () {
         function () {
             x = $("#form1").serializeArray();
             var obj = JSON.stringify(x);
-            console.log(x);
             $.ajax({
                 type: "post",
                 data: x,
                 url: "batchquery.do",
                 success: function (result) {
-                    console.log(result);
                     var tmp = jQuery.parseJSON(result);
                     var statistic = tmp[0];
                     var table = tmp[1];
-                    // console.log(statistic);
-                    // console.log(statistic.sfinish);
-                    console.log(table);
                     if (identity == 0) {
                         $("#totalnum").html(statistic.ssum);
                         $("#greennum").html(statistic.sgreen);
@@ -164,8 +243,6 @@ $(document).ready(function () {
     $("#query2").click(
         function () {
             x = $("#form2").serializeArray();
-            var obj = JSON.stringify(x);
-            console.log(x);
             $.ajax({
                 type: "post",
                 data: x,
@@ -176,9 +253,7 @@ $(document).ready(function () {
                     $("#yellownum").html("");
                     $("#rednum").html("");
                     $("#finishnum").html("");
-                    console.log(result);
                     var table = jQuery.parseJSON(result);
-                    console.log(table);
                     if (identity == 0) {
                         print_student(table);
                     }
@@ -197,13 +272,13 @@ $(document).ready(function () {
     //导入数据
     $("#import").click(
         function () {
-            var formData = new FormData();
-            formData.append("identity", document.getElementById("import_identity").value);
-            formData.append("JsonFile", document.getElementById("import_jsonfile").files[0]);
+            var tmpform = new FormData();
+            tmpform.append("identity", document.getElementById("import_identity").value);
+            tmpform.append("JsonFile", document.getElementById("import_jsonfile").files[0]);
             $.ajax({
                 url: "add.do",
                 type: "POST",
-                data: formData,
+                data: tmpform,
                 contentType: false,
                 dataType: "text",
                 processData: false,
@@ -226,6 +301,24 @@ $(document).ready(function () {
             })
         }
     );
+
+    $("#modify_button").click(
+        function () {
+            var x = $("#modify_from").serializeArray();
+            $.ajax({
+                type: "post",
+                data: x,
+                url: "modify.do",
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (e) {
+                    console.log(e.status);
+                    console.log(e.responseText);
+                }
+            })
+        }
+    )
 });
 
 function tea_modify(e) {
@@ -238,3 +331,16 @@ function close_modify() {
     $("#modify_page").css("display", "none");
 }
 
+function deleterecord(e){
+    $.ajax({
+        type :"get",
+        url:e,
+        success: function(result){
+            alert(result);
+        },
+        eoor: function(e){
+            console.log(e.status);
+            console.log(e.responseText);
+        }
+    })
+}

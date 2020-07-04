@@ -24,10 +24,10 @@ public class GetClassServlet extends HttpServlet {
         String tmp = "[";
         for(String Class : allClass) {
             if(tmp.equals("[")) {
-                tmp += Class;
+                tmp += "\"" + Class + "\"";
             }
             else {
-                tmp = tmp + "," + Class;
+                tmp = tmp + "," + "\"" + Class + "\"";
             }
         }
         tmp += "]";

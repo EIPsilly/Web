@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 
 @WebServlet(name = "DeleteServlet", urlPatterns = "/delete.do")
 public class DeleteServlet extends HttpServlet {
@@ -19,42 +21,38 @@ public class DeleteServlet extends HttpServlet {
         String identity = request.getParameter("identity");
         AdminDao dao = new AdminDao();
         String message = null;
+        PrintWriter out = response.getWriter();
         if(identity.equals("student")) {
             String Sid = request.getParameter("Sid");
-            if(dao.DeleteStudent(Sid)) {
-                message = "删除成功!";
-                HttpSession session = request.getSession();
-                session.setAttribute("result", message);
-                request.getRequestDispatcher("/DeleteTest.jsp").forward(request, response);
+            try{
+                if (dao.DeleteStudent(Sid))
+                {
+                    out.print("删除成功!");
+                }
             }
-            else {
-                message = "删除失败!";
-                HttpSession session = request.getSession();
-                session.setAttribute("result", message);
-                request.getRequestDispatcher("/DeleteTest.jsp").forward(request, response);
+            catch (SQLException e1) {
+                System.out.println(e1);
+                e1.printStackTrace(out);
+                return;
             }
         }
-        else {
+        else if (identity.equals("teacher")){
             String Tid = request.getParameter("Tid");
             String Trole = request.getParameter("Trole");
             if(Trole.equals("系统管理员")) {
                 message = "没有权限!";
-                HttpSession session = request.getSession();
-                session.setAttribute("result", message);
-                request.getRequestDispatcher("/DeleteTest.jsp").forward(request, response);
+                out.print(message);
             }
             else {
                 if(dao.DeleteAdmin(Tid) && dao.DeleteTeacher(Tid)) {
                     message = "删除成功!";
                     HttpSession session = request.getSession();
                     session.setAttribute("result", message);
-                    request.getRequestDispatcher("/DeleteTest.jsp").forward(request, response);
                 }
                 else {
                     message = "删除失败!";
                     HttpSession session = request.getSession();
                     session.setAttribute("result", message);
-                    request.getRequestDispatcher("/DeleteTest.jsp").forward(request, response);
                 }
             }
         }

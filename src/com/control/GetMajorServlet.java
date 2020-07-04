@@ -24,16 +24,15 @@ public class GetMajorServlet extends HttpServlet {
         String tmp = "[";
         for(String major : allMajor) {
             if(tmp.equals("[")) {
-                tmp += major;
+                tmp += "\"" + major + "\"";
             }
             else {
-                tmp = tmp + "," + major;
+                tmp = tmp + "," + "\"" + major + "\"";
             }
         }
         tmp += "]";
         System.out.println(tmp);
-        PrintWriter out = response.getWriter();
-        out.print(tmp);
+        response.getWriter().print(tmp);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

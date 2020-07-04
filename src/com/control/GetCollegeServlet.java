@@ -29,10 +29,10 @@ public class GetCollegeServlet extends HttpServlet {
         String tmp = "[";
         for(String college : AllCollege) {
             if(tmp.equals("[")) {
-                tmp += college;
+                tmp += "\"" + college + "\"";
             }
             else {
-                tmp = tmp + "," + college;
+                tmp = tmp + "," + "\"" + college + "\"";
             }
         }
         tmp += "]";

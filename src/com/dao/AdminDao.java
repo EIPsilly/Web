@@ -308,18 +308,16 @@ public class AdminDao extends BaseDao{
         }
     }
     //学生删除
-    public Boolean DeleteStudent(String Sid) {
+    public Boolean DeleteStudent(String Sid) throws SQLException{
         String sqlStr = "DELETE FROM student WHERE Sid = '" + Sid + "'";
-        try(Connection conn = dataSource.getConnection();
-            Statement st = conn.createStatement()){
-            st.setMaxRows(20);
-            System.out.println(sqlStr);
-            st.executeUpdate(sqlStr);
-            return true;
-        } catch (SQLException e1) {
-            System.out.println(e1);
-            return false;
-        }
+        Connection conn = dataSource.getConnection();
+        Statement st = conn.createStatement();
+        st.setMaxRows(20);
+        System.out.println(sqlStr);
+        st.executeUpdate(sqlStr);
+        conn.close();
+        st.close();
+        return true;
     }
     //教师删除
     public Boolean DeleteTeacher(String Tid) {

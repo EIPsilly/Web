@@ -12,6 +12,59 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href = "Administrator.css">
     <script src = "jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script>
+        //身份判断 0学生 1教师
+        var identity = 0;
+
+        //学生表格输出
+        function print_student(table) {
+            var out = $("#table_student");
+            out.html("<tr>\n<th>学号</th>\n<th>姓名</th>\n<th>学院</th>\n<th>专业</th>\n<th>班级</th>\n<th>健康状况</th>\n<th>连续打卡天数</th>\n<th>是否打卡</th>\n<th>操作</th></tr>");
+            for (let index in table) {
+                var it = table[index];
+                var str = it.stoday == "1" ? "是" : "否";
+                var str2;
+                if (it.shealth == "green") str2 = "绿码";
+                else if (it.shealth == "yellow") str2 = "黄码";
+                else if (it.shealth == "red") str2 = "红码";
+                out.append("<tr>\n<td>"
+                    + it.sid + "</td>\n<td>"
+                    + it.sname + "</td>\n<td>"
+                    + it.scollege + "</td>\n<td>"
+                    + it.smajor + "</td>\n<td>"
+                    + it.sclass + "</td>\n<td>"
+                    + str2 + "</td>\n<td>"
+                    + it.sdate + "</td>\n<td>"
+                    + str + "</td>\n<td>\n<a href = \"#\" onclick=deleterecord(delete.do?identity=teacher&Tid=" + it.sid + ")>删除</a>\n";
+            }
+        }
+
+        //教师表格输出
+        function print_teacher(table) {
+            var out = $("#table_teacher");
+            out.html("<tr>\n<th>工号</th>\n<th>姓名</th>\n<th>学院</th>\n<th>角色</th>\n<th>健康状况</th>\n<th>连续打卡天数</th>\n<th>是否打卡</th>\n<th>操作</th></tr>");
+            console.log(table)
+            for (let index in table) {
+                var it = table[index];
+                var str = it.ttoday == "1" ? "是" : "否";
+                var str2;
+                if (it.thealth == "green") str2 = "绿码";
+                else if (it.thealth == "yellow") str2 = "黄码";
+                else if (it.thealth == "red") str2 = "红码";
+                let str1 = "<tr>\n<td>"
+                    + it.tid + "</td>\n<td>"
+                    + it.tname + "</td>\n<td>"
+                    + it.tcollege + "</td>\n<td id = \"tea_record" + index + "\">"
+                    + it.trole + "</td>\n<td>"
+                    + str2 + "</td>\n<td>"
+                    + it.tdate + "</td>\n<td>"
+                    + str + "</td>\n<td>\n<a href = \"#\" onclick=deleterecord(delete.do?identity=teacher&Tid=" + it.tid + "&Trole" + it.trole + ")>删除</a>\n";
+                if (it.trole == "系统管理员" || it.trole == "院级管理员" || it.trole == "校级管理员") str1 = str1 + "<a href = \"#\" onclick = \"tea_modify(" + index + ")\">修改</a>\n";
+                str1 = str1 + "</td>\n</tr>\n";
+                out.append(str1);
+            }
+        }
+    </script>
     <script type="text/javascript" src = "Administrator.js"></script>
     <title>管理员界面</title>
 </head>
@@ -26,8 +79,7 @@
                 <p>学院</p>
                 <input list = "college_list" id = "college" name = "Scollege" class = "list" placeholder = "请选择学院">
                 <datalist id = "college_list">
-                    <option>计算机科学与技术学院</option>
-                    <option>信息学院</option>
+                    <option>请选择学院</option>
                 </datalist>
             </li>
             <div id = "query_teacher">
@@ -35,18 +87,14 @@
                     <p>专业</p>
                     <input list = "major" name = "Smajor" id = "Smajor" class = "list" placeholder = "请选择专业">
                     <datalist id = "major">
-                        <option>计算机科学与技术</option>
-                        <option>软件工程</option>
-                        <option>数字媒体</option>
+                        <option>请先选择学院</option>
                     </datalist>
                 </li>
                 <li>
                     <p>班级</p>
                     <input list = "class" name = "Sclass" id = "Sclass" class = "list" placeholder = "请选择班级">
                     <datalist id = "class">
-                        <option>软工1801</option>
-                        <option>软工1802</option>
-                        <option>软工1803</option>
+                        <option>请先选择专业</option>
                     </datalist>
                 </li>
             </div>
@@ -97,7 +145,7 @@
         <form action = "" enctype="multipart/form-data" method="post">
             <input type="hidden" name = "identity" value = "student">
             <input type="file" name = "JsonFile">
-            <input type="submit" value="导入">
+            <input type="submit" value="导入学生">
         </form>
     </div>
     <div id = "showstatistc">
@@ -110,10 +158,10 @@
                 <th>未打卡</th>
             </tr>
             <tr>
-                <th id = "greennum">90</th>
-                <th id = "yellownum">90</th>
-                <th id = "rednum">90</th>
-                <th id = "nonenum">90</th>
+                <th id = "greennum"></th>
+                <th id = "yellownum"></th>
+                <th id = "rednum"></th>
+                <th id = "nonenum"></th>
             </tr>
         </table>
     </div>
@@ -122,7 +170,6 @@
             <tr>
                 <th>学号</th>
                 <th>姓名</th>
-                <th>身份证</th>
                 <th>学院</th>
                 <th>专业</th>
                 <th>班级</th>
@@ -131,46 +178,17 @@
                 <th>是否打卡</th>
                 <th>操作</th>
             </tr>
-            <tr>
-                <td>201806062405</td>
-                <td>张三</td>
-                <td>330122199612161716</td>
-                <td>计算机学院</td>
-                <td>软件工程</td>
-                <td>软工1801</td>
-                <td>绿码</td>
-                <td>5</td>
-                <td>是</td>
-                <td>
-                    <a href = "#">删除</a>
-                </td>
-            </tr>
         </table>
         <table id = "table_teacher" class = "showtable" style="display: none;">
             <tr>
                 <th>工号</th>
                 <th>姓名</th>
-                <th>身份证</th>
                 <th>学院</th>
                 <th>角色</th>
                 <th>健康状况</th>
                 <th>连续打卡天数</th>
                 <th>是否打卡</th>
                 <th>操作</th>
-            </tr>
-            <tr id = "tea_record1">
-                <td>201806060606</td>
-                <td>李四</td>
-                <td>330122199612161716</td>
-                <td>计算机学院</td>
-                <td>院级管理员</td>
-                <td>绿码</td>
-                <td>5</td>
-                <th>是</th>
-                <td>
-                    <a href = "#" onclick="tea_modify(1)">修改</a>
-                    <a href = "#">删除</a>
-                </td>
             </tr>
         </table>
     </div>
@@ -182,7 +200,7 @@
         <input type="hidden" name = "passive" id = "passive">
         <div id = "modify_password">
             修改后的密码：<input type="password" name = "Apassword">
-            <input type="submit" value="提交修改" class = "button">
+            <input type="button" value="提交修改" class = "button" id = "modify_button">
         </div>
     </form>
 </div>
