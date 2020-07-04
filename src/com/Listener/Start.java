@@ -14,6 +14,7 @@ public class Start implements ServletContextListener {
     public void contextInitialized(ServletContextEvent e) {
         long daySpan = 24 * 60 * 60 * 1000;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+        // 首次运行时间
         try {
             Date startTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(sdf.format(new Date()));
             // 如果今天的已经过了 首次运行时间就改为明天

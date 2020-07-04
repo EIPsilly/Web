@@ -70,7 +70,7 @@ public class DeleteServlet extends HttpServlet {
             }
             else if(Trole.equals("校级管理员") || Trole.equals("院级管理员")){
                 if(dao.DeleteAdmin(Tid) && dao.DeleteTeacher(Tid)) {
-                    Teacher tea = dao.findTeacher(Tid, null, null).get(0);
+                    Teacher tea = dao.findTeacher(Tid, "", "").get(0);
                     Date date = new Date();
                     DateCheck d = dao2.GetDataByDate(date);
                     if(tea.getTtoday() == 1) {
@@ -103,7 +103,7 @@ public class DeleteServlet extends HttpServlet {
             }
             else if(Trole.equals("普通教师")){
                 if(dao.DeleteTeacher(Tid)) {
-                    Teacher tea = dao.findTeacher(Tid, null, null).get(0);
+                    Teacher tea = dao.findTeacher(Tid, "", "").get(0);
                     Date date = new Date();
                     DateCheck d = dao2.GetDataByDate(date);
                     if(tea.getTtoday() == 1) {

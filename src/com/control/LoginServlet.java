@@ -36,7 +36,8 @@ public class LoginServlet extends HttpServlet {
                 if(dao.LoginStudent(id,password)) {
                     HttpSession session = request.getSession();
                     session.setAttribute("identity", "student");
-                    Student stu = dao.findStudent(id,null,null).get(0);
+                    Student stu = dao.findStudent(id,"","").get(0);
+//                    System.out.println(stu.getSid() + " " + stu.getSname() + " " + stu.getSidcard());
                     session.setAttribute("id", stu.getSid());
                     session.setAttribute("name", stu.getSname());
                     session.setAttribute("idcard", stu.getSidcard());
@@ -75,7 +76,7 @@ public class LoginServlet extends HttpServlet {
                     message = "登录成功!";
                     HttpSession session = request.getSession();
                     session.setAttribute("identity", "teacher");
-                    Teacher tea = dao.findTeacher(id,null,null).get(0);
+                    Teacher tea = dao.findTeacher(id,"","").get(0);
                     session.setAttribute("id", tea.getTid());
                     session.setAttribute("name", tea.getTname());
                     session.setAttribute("idcard", tea.getTidcard());

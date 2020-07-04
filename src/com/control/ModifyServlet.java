@@ -55,7 +55,7 @@ public class ModifyServlet extends HttpServlet {
         else if("student".equals(identity)) {
             Student New = new Student();
             New.setSid(request.getParameter("Sid"));
-            Student last = dao.findStudent(New.getSid(), null, null).get(0);
+            Student last = dao.findStudent(New.getSid(), "", "").get(0);
             New.setSname(request.getParameter("Sname"));
             New.setSidcard(request.getParameter("Sidcard"));
             New.setScollege(request.getParameter("Scollege"));
@@ -80,7 +80,7 @@ public class ModifyServlet extends HttpServlet {
         else if("teacher".equals(identity)) {
             Teacher New = new Teacher();
             New.setTid(request.getParameter("Tid"));
-            Teacher last = dao.findTeacher(New.getTid(), null, null).get(0);
+            Teacher last = dao.findTeacher(New.getTid(),"","").get(0);
             New.setTname(request.getParameter("Tname"));
             New.setTidcard(request.getParameter("Tidcard"));
             New.setTcollege(request.getParameter("Tcollege"));

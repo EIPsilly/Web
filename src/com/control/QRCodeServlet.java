@@ -27,6 +27,8 @@ public class QRCodeServlet extends HttpServlet {
         String name = request.getParameter("name");
         String idcard = request.getParameter("idcard");
         String identity = request.getParameter("identity");
+//        System.out.println(id + " " + name + " " + idcard);
+//        identity = "student";
         AdminDao dao = new AdminDao();
         String health = null;
         int today = 0;
