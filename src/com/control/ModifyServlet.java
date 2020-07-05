@@ -28,6 +28,7 @@ public class ModifyServlet extends HttpServlet {
         if("admin".equals(identity)) {
             String initiative = request.getParameter("initiative");
             String passive = request.getParameter("passive");
+            System.out.println("密码修改");
             if(((initiative.equals("院级管理员") || initiative.equals("校级管理员")) && passive.equals("系统管理员")) ||
                     (initiative.equals("校级管理员") && passive.equals("院级管理员")) || initiative.equals(passive)) {
                 message = "没有权限!";

@@ -137,9 +137,8 @@ $(document).ready(function () {
             $("#Sid").attr("placeholder", "请输入学号");
             $("#import").attr("value","学生导入");
             $("#college").attr("value","");
-            let obj = document.getElementsByName("identity");
-            for (let i = 0; i < 2; i++)
-                obj[i].value = "student";
+            $("#bantch_identity").val("student");
+            $("#queryone_identity").val("student");
             //更新学院选项
             $.ajax({
                 type: "get",
@@ -179,9 +178,8 @@ $(document).ready(function () {
             $("#form2_Sno").html("工号");
             $("#import").attr("value","教师导入");
             $("#college").attr("value","");
-            let obj = document.getElementsByName("identity");
-            for (let i = 0; i < 2; i++)
-                obj[i].value = "teacher";
+            $("#bantch_identity").val("teacher");
+            $("#queryone_identity").val("teacher");
             //更新学院选项
             $.ajax({
                 type: "get",
@@ -309,6 +307,7 @@ $(document).ready(function () {
             url: "modify.do",
             success: function (result) {
                 console.log(result);
+                alert(result);
             },
             error: function (e) {
                 console.log(e.status);

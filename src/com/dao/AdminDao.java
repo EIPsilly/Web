@@ -76,8 +76,8 @@ public class AdminDao extends BaseDao{
         String sqlStr = "UPDATE admin SET Apassword = ? WHERE Aid = ?";
         try(Connection conn = dataSource.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sqlStr)){
-            pstmt.setString(1, Admin.getAid());
-            pstmt.setString(2, Admin.getApassword());
+            pstmt.setString(1, Admin.getApassword());
+            pstmt.setString(2, Admin.getAid());
             System.out.println(sqlStr);
             pstmt.executeUpdate();
             return true;

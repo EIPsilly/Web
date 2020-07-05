@@ -93,7 +93,7 @@ public class RecordServlet extends HttpServlet {
                 color = stu.getShealth();
                 Date d = new Date();
                 DateCheck today = dao2.GetDataByDate(d);
-                today.setSfinish(today.getTfinish() + 1);
+                today.setSfinish(today.getSfinish() + 1);
                 if(color.equals("green")) {
                     today.setSgreen(today.getSgreen() + 1);
                 }

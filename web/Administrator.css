@@ -108,10 +108,10 @@ body {
 
 #showwindow {
     margin-left: 300px;
-    width: calc(var(--width) - 300px - 100px);
+    width: calc(var(--width) - 275px - 25px);
     position: relative;
     top: 80px;
-    left: 0px;
+    left: -25px;
 }
 
 .showtable {

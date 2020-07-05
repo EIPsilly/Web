@@ -69,24 +69,24 @@ public class DeleteServlet extends HttpServlet {
                 out.print(message);
             }
             else if(Trole.equals("校级管理员") || Trole.equals("院级管理员")){
-                if(dao.DeleteAdmin(Tid) && dao.DeleteTeacher(Tid)) {
-                    Teacher tea = dao.findTeacher(Tid, "", "").get(0);
-                    Date date = new Date();
-                    DateCheck d = dao2.GetDataByDate(date);
-                    if(tea.getTtoday() == 1) {
-                        d.setTfinish(d.getTfinish() - 1);
-                        String health = tea.getThealth();
-                        if(health.equals("red")) {
-                            d.setTred(d.getTred() - 1);
-                        }
-                        else if(health.equals("yellow")) {
-                            d.setTyellow(d.getTyellow() - 1);
-                        }
-                        else if(health.equals("green")) {
-                            d.setTgreen(d.getTgreen() - 1);
-                        }
+                Teacher tea = dao.findTeacher(Tid, "", "").get(0);
+                Date date = new Date();
+                DateCheck d = dao2.GetDataByDate(date);
+                if(tea.getTtoday() == 1) {
+                    d.setTfinish(d.getTfinish() - 1);
+                    String health = tea.getThealth();
+                    if(health.equals("red")) {
+                        d.setTred(d.getTred() - 1);
                     }
-                    d.setTsum(d.getTsum() - 1);
+                    else if(health.equals("yellow")) {
+                        d.setTyellow(d.getTyellow() - 1);
+                    }
+                    else if(health.equals("green")) {
+                        d.setTgreen(d.getTgreen() - 1);
+                    }
+                }
+                d.setTsum(d.getTsum() - 1);
+                if(dao.DeleteAdmin(Tid) && dao.DeleteTeacher(Tid)) {
                     if(dao2.UpdateData(d)) {
                         message = "删除成功!";
                         out.print(message);
@@ -102,24 +102,24 @@ public class DeleteServlet extends HttpServlet {
                 }
             }
             else if(Trole.equals("普通教师")){
-                if(dao.DeleteTeacher(Tid)) {
-                    Teacher tea = dao.findTeacher(Tid, "", "").get(0);
-                    Date date = new Date();
-                    DateCheck d = dao2.GetDataByDate(date);
-                    if(tea.getTtoday() == 1) {
-                        d.setTfinish(d.getTfinish() - 1);
-                        String health = tea.getThealth();
-                        if(health.equals("red")) {
-                            d.setTred(d.getTred() - 1);
-                        }
-                        else if(health.equals("yellow")) {
-                            d.setTyellow(d.getTyellow() - 1);
-                        }
-                        else if(health.equals("green")) {
-                            d.setTgreen(d.getTgreen() - 1);
-                        }
+                Teacher tea = dao.findTeacher(Tid, "", "").get(0);
+                Date date = new Date();
+                DateCheck d = dao2.GetDataByDate(date);
+                if(tea.getTtoday() == 1) {
+                    d.setTfinish(d.getTfinish() - 1);
+                    String health = tea.getThealth();
+                    if(health.equals("red")) {
+                        d.setTred(d.getTred() - 1);
                     }
-                    d.setTsum(d.getTsum() - 1);
+                    else if(health.equals("yellow")) {
+                        d.setTyellow(d.getTyellow() - 1);
+                    }
+                    else if(health.equals("green")) {
+                        d.setTgreen(d.getTgreen() - 1);
+                    }
+                }
+                d.setTsum(d.getTsum() - 1);
+                if(dao.DeleteTeacher(Tid)) {
                     if(dao2.UpdateData(d)) {
                         message = "删除成功!";
                         out.print(message);

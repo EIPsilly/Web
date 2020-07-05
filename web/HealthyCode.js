@@ -8,6 +8,25 @@ function check(str)
     return true;
 }
 
+function change(e) {
+    if (document.getElementById("checkbox1").checked == true)
+    {
+        let tmp = document.getElementsByName("HealthStatus");
+        for (let index = 0;index<tmp.length;index++)
+        {
+            tmp[index].checked = false;
+        }
+    }
+}
+
+function change1(e) {
+    console.log(e.checked);
+    if (e.checked == true){
+        document.getElementById("checkbox1").checked = false;
+    }
+}
+
+
 function isEmpty(obj){
     if(typeof obj == undefined || obj == null || obj == "") return true;
     return false;
@@ -16,8 +35,8 @@ function isEmpty(obj){
 function jump()
 {
     if (isEmpty(document.getElementsByName("name")[0].value) ||
-    isEmpty(document.getElementsByName("IDcard")[0].value) ||
-    isEmpty(document.getElementsByName("Sno")[0].value) ||
+    isEmpty(document.getElementsByName("idcard")[0].value) ||
+    isEmpty(document.getElementsByName("id")[0].value) ||
     isEmpty(document.getElementsByName("phone")[0].value))
     {
         alert("请完善个人信息");
@@ -48,10 +67,14 @@ function jump()
         alert("请选择第六题")
         return false;
     }
-    if (check("Promise"))
+    let tmp = document.getElementsByName("Promise");
+    for (var i = 0;i<tmp.length;i++)   
     {
-        alert("请做出承诺");
-        return false;
+        if (tmp[i].checked == false)
+        {
+            alert("请做出承诺");
+            return false;
+        }
     }
     return true;
 }

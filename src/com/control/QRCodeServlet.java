@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,12 +24,13 @@ import static com.model.QRCode.QREncode;
 public class QRCodeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         String identity = (String) session.getAttribute("identity");
         String id =  (String) session.getAttribute("id");
         String name =  (String) session.getAttribute("name");
         String idcard =  (String) session.getAttribute("idcard");
-
         AdminDao dao = new AdminDao();
         String health = null;
         int today = 0;
@@ -42,12 +44,14 @@ public class QRCodeServlet extends HttpServlet {
             health = tea.getThealth();
             today = tea.getTtoday();
         }
+
+        System.out.println(identity + " " + id + " " + health + " " + today);
         if(health.equals("null")) {
-            session.setAttribute("message","未申报！");
+            out.print("<!DOCTYPE html><html><body><script>alert(\"未申报\"); window.location.href = \"/control.jsp\"</script></body></html>");
             return;
         }
         else if(today == 0) {
-            session.setAttribute("message", "今日未打卡！");
+            out.print("<!DOCTYPE html><html><body><script>alert(\"今日未打卡\"); window.location.href = \"/control.jsp\"</script></body></html>");
             return;
         }
         int color = 0xFF008000;
@@ -71,6 +75,6 @@ public class QRCodeServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

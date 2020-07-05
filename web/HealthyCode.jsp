@@ -12,9 +12,11 @@
     <meta charset="UTF-8">
     <title>健康码</title>
     <link rel="stylesheet" type="text/css" href="HealthyCode.css">
+    <script src = "jquery-3.4.1/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="HealthyCode.js"></script>
 </head>
 <body style="background-color :#f6f6f6">
+<a href = "control.jsp" style="position: absolute; right:30px; top:20px; font-size:20px;">返回</a>
 <form action="record.do" method="POST" onsubmit = "return jump()">
     <div class = "MainBody">
         <img src="images/2.png"/>
@@ -123,49 +125,49 @@
             </div>
             <label>
                 <div class = "CheckBox">
-                    <input type="checkbox" name ="Healthy" class = "CheckBoxHidden">
+                    <input type="checkbox" name ="Healthy" class = "CheckBoxHidden" id = "checkbox1" onclick="change()">
                     <span class="CheckBoxInput"></span><span class = "CheckBoxText">无异常</span>
                 </div>
             </label>
             <label>
                 <div class = "CheckBox">
-                    <input type="checkbox" name="HealthStatus" value="Fever" class = "CheckBoxHidden">
+                    <input type="checkbox" name="HealthStatus" value="Fever" class = "CheckBoxHidden" onclick="change1(this)">
                     <span class="CheckBoxInput"></span><span class = "CheckBoxText">发烧(≥37.3℃)</span>
                 </div>
             </label>
             <label>
                 <div class = "CheckBox">
-                    <input type="checkbox" name="HealthStatus" value="Weak" class = "CheckBoxHidden">
+                    <input type="checkbox" name="HealthStatus" value="Weak" class = "CheckBoxHidden" onclick="change1(this)">
                     <span class="CheckBoxInput"></span><span class = "CheckBoxText">乏力</span>
                 </div>
             </label>
             <label>
                 <div class = "CheckBox">
-                    <input type="checkbox" name="HealthStatus" value="DryCough" class = "CheckBoxHidden">
+                    <input type="checkbox" name="HealthStatus" value="DryCough" class = "CheckBoxHidden" onclick="change1(this)">
                     <span class="CheckBoxInput"></span><span class = "CheckBoxText">干咳</span>
                 </div>
             </label>
             <label>
                 <div class = "CheckBox">
-                    <input type="checkbox" name="HealthStatus" value="StuffyNose" class = "CheckBoxHidden">
+                    <input type="checkbox" name="HealthStatus" value="StuffyNose" class = "CheckBoxHidden" onclick="change1(this)">
                     <span class="CheckBoxInput"></span><span class = "CheckBoxText">鼻塞</span>
                 </div>
             </label>
             <label>
                 <div class = "CheckBox">
-                    <input type="checkbox" name="HealthStatus" value="RunnyNose" class = "CheckBoxHidden">
+                    <input type="checkbox" name="HealthStatus" value="RunnyNose" class = "CheckBoxHidden" onclick="change1(this)">
                     <span class="CheckBoxInput"></span><span class = "CheckBoxText">流涕</span>
                 </div>
             </label>
             <label>
                 <div class = "CheckBox">
-                    <input type="checkbox" name="HealthStatus" value="SoreThroat" class = "CheckBoxHidden">
+                    <input type="checkbox" name="HealthStatus" value="SoreThroat" class = "CheckBoxHidden" onclick="change1(this)">
                     <span class="CheckBoxInput"></span><span class = "CheckBoxText">咽痛</span>
                 </div>
             </label>
             <label>
                 <div class = "CheckBox">
-                    <input type="checkbox" name="HealthStatus" value="Diarrhea" class = "CheckBoxHidden">
+                    <input type="checkbox" name="HealthStatus" value="Diarrhea" class = "CheckBoxHidden" onclick="change1(this)">
                     <span class="CheckBoxInput"></span><span class = "CheckBoxText">腹泻</span>
                 </div>
             </label>
@@ -197,3 +199,4 @@
 </form>
 </body>
 </html>
+

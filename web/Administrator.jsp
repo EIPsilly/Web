@@ -39,6 +39,7 @@
             for (let i = 0;i<=5;i++)  array2[i+1].value = array[i].innerText;
         }
 
+
         function modify_tea(e){
             $("#modify_tea_page").css("display","block");
             e = e.toString();
@@ -54,7 +55,7 @@
                 document.getElementById("passive").value = array[4].innerText;
                 document.getElementById("Aid").value = array[0].innerText;
                 $("#onlyteacher").css("display","none");
-                $("#modify_tea_pass_from").css("display","block");
+                $("#modify_tea_pass_from").css("display","flex");
             }
         }
 
@@ -65,11 +66,16 @@
 
         // 教师删除
         function delete_tea(e1,e2){
+            console.log(typeof(e1));
+            console.log(typeof(e2));
+            console.log(e1);
+            console.log(e2);
             console.log("delete.do?identity=teacher&Tid=" + e1 + "&Trole=" + e2);
             $.ajax({
                 type :"get",
                 url: "delete.do?identity=teacher&Tid=" + e1 + "&Trole=" + e2,
                 success: function(result){
+                    console.log(result)
                     alert(result);
                 },
                 error: function(e){
@@ -130,8 +136,8 @@
                     + it.sdate + "</td>\n<td>"
                     + str + "</td>\n";
                 <c:if test="${Login_identity.equals(\"系统管理员\")}">
-                    str3 += "<td>\n<a href = \"#\" onclick=\"delete_stu(" + it.sid + ")\">删除</a>\n" +
-                                  "<a href = \"#\" onclick=\"modify_stu(" + it.sid + ")\">修改</a>\n" +
+                    str3 += "<td>\n<a href = \"#\" onclick=\"delete_stu(\'" + it.sid + "\')\">删除</a>\n" +
+                                  "<a href = \"#\" onclick=\"modify_stu(\'" + it.sid + "\')\">修改</a>\n" +
                             "</td>\n";
                 </c:if>
                 out.append(str3 + "</tr>");
@@ -157,9 +163,7 @@
                 if (it.thealth == "green") str2 = "绿码";
                 else if (it.thealth == "yellow") str2 = "黄码";
                 else if (it.thealth == "red") str2 = "红码";
-                else if (it.shealth == "null") str2 = "未申报";
-                var str3 = "identity=teacher&Tid=" + it.tid + "&Trole=" + it.trole;
-                console.log(str3);
+                else if (it.thealth == "null") str2 = "未申报";
                 var str1 = "<tr id = " + it.tid + ">\n<td>"
                     + it.tid + "</td>\n<td>"
                     + it.tname + "</td>\n<td>"
@@ -168,23 +172,27 @@
                     + it.trole + "</td>\n<td>"
                     + str2 + "</td>\n<td>"
                     + it.tdate + "</td>\n<td>"
-                    + str + "</td>\n<td>";
+                    + str + "</td>\n";
                 <c:choose>
                     <c:when test="${Login_identity.equals(\"系统管理员\")}">
                         if (it.trole != "系统管理员") {
-                            str1 = str1 + "\n<a href = \"#\" onclick=\"delete_tea(" + it.tid + "," + it.trole + ")\">删除</a>";
-                            str1 = str1 + "\n<a href = \"#\" onclick = \"modify_tea(" + it.tid + ")\">修改</a>";
+                            str1 = str1 + "<td>"
+                            str1 = str1 + "\n<a href = \"#\" onclick=\"delete_tea(\'" + it.tid + "\',\'" + it.trole + "\')\">删除</a>";
+                            str1 = str1 + "\n<a href = \"#\" onclick = \"modify_tea(\'" + it.tid + "\')\">修改</a>";
+                            str1 = str1 + "\n</td>\n";
                         }
                         // else str1 = str1 + " ";
                     </c:when>
                     <c:when test="${Login_identity.equals(\"校级管理员\")}">
                         if (it.trole == "院级管理员"){
-                            str1 = str1 + "\n<a href = \"#\" onclick = \"tea_modify(" + it.tid + ")\">修改密码</a>";
+                            str1 = str1 + "<td>"
+                            str1 = str1 + "\n<a href = \"#\" onclick = \"tea_modify(\'" + it.tid + "\')\">修改密码</a>";
+                            str1 = str1 + "\n</td>\n";
                         }
                         // else str1 = str1 + " ";
                     </c:when>
                 </c:choose>
-                str1 += "\n</td>\n</tr>";
+                str1 += "</tr>";
                 out.append(str1);
             }
         }
@@ -194,7 +202,7 @@
 <body>
 <div id = "selection">
     <form id = "form1">
-        <input type="hidden" name = "identity" value = "student">
+        <input type="hidden" name = "identity" value = "student" id = "bantch_identity">
         <input type="hidden" name = "pattern" value = "batch">
         <p style="margin-top: 30px;">批量管理</p>
         <ul>
@@ -224,7 +232,7 @@
         </ul>
     </form>
     <form id = "form2">
-        <input type="hidden" name = "identity" value = "student">
+        <input type="hidden" name = "identity" value = "student" id = "queryone_identity">
         <input type="hidden" name = "pattern" value = "onebyone">
         <p>单个查询</p>
         <ul>
@@ -261,13 +269,32 @@
             </div>
         </label>
     </div>
-    <div id = "postjson">
-        <form >
-            <input type="hidden" name = "identity" value = "student" id = "import_identity">
-            <input type="file" name = "JsonFile" id = "import_jsonfile">
-            <input type="button" value="导入学生" id = "import">
-        </form>
-    </div>
+
+<%--    json导入--%>
+    <c:if test="${Login_identity.equals(\"系统管理员\")}">
+        <script>
+            $("#student").click(
+                function () {
+                    $("#import_identity").val("student");
+                }
+            )
+
+            $("#teacher").click(
+                function () {
+                    $("#import_identity").val("teacher");
+                }
+            )
+        </script>
+        <div id = "postjson">
+            <form >
+                <input type="hidden" name = "identity" value = "student" id = "import_identity">
+                <input type="file" name = "JsonFile" id = "import_jsonfile">
+                <input type="button" value="导入学生" id = "import">
+            </form>
+        </div>
+    </c:if>
+
+
     <div id = "showstatistc">
         <table id = "statistctable">
             <tr>

@@ -32,7 +32,7 @@ public class GetCollegeServlet extends HttpServlet {
         String tmp = "[";
         for(String college : AllCollege) {
             if(session.getAttribute("identity").equals("院级管理员") && session.getAttribute("college") != null
-            && session.getAttribute("college").equals(college)) {
+                    && !session.getAttribute("college").equals(college)) {
                 continue;
             }
             if(tmp.equals("[")) {
