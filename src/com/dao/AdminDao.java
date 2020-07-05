@@ -43,6 +43,20 @@ public class AdminDao extends BaseDao{
             return 0;
         }
     }
+    //添加管理员
+    public boolean AddAdmin(admin Admin) throws SQLException {
+        String sqlStr = "INSERT INTO admin values('"+Admin.getAid()+"','"+Admin.getApassword()+"','"+Admin.getArole()+"')";
+        Connection conn = dataSource.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+        Statement st = conn.createStatement();
+        st.setMaxRows(20);
+        System.out.println(sqlStr);
+        st.executeUpdate(sqlStr);
+        conn.close();
+        st.close();
+        return true;
+    }
+
    //删除管理员
     public boolean DeleteAdmin(String Aid) {
         try(Connection conn = dataSource.getConnection();

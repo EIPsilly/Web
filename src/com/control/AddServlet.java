@@ -8,6 +8,7 @@ import com.dao.DataDao;
 import com.model.DateCheck;
 import com.model.Student;
 import com.model.Teacher;
+import com.model.admin;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -105,6 +106,20 @@ public class AddServlet extends HttpServlet {
                     se.printStackTrace();
                     se.printStackTrace(out);
                     return;
+                }
+                if(!teacher.getTrole().equals("普通教师")) {
+                    admin a = new admin();
+                    a.setAid(teacher.getTid());
+                    a.setArole(teacher.getTrole());
+                    String Tidcard = teacher.getTidcard();
+                    a.setApassword(Tidcard.substring(Tidcard.length() - 8));
+                    try{
+                        dao.AddAdmin(a);
+                    }catch (SQLException se) {
+                        se.printStackTrace();
+                        se.printStackTrace(out);
+                        return;
+                    }
                 }
             }
         }
