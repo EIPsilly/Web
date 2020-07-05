@@ -23,15 +23,11 @@ import static com.model.QRCode.QREncode;
 public class QRCodeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-//        String id = request.getParameter("id");
-//        String name = request.getParameter("name");
-//        String idcard = request.getParameter("idcard");
-//        String identity = request.getParameter("identity");
-        HttpSession session = request.getSession();
-        String identity = (String) session.getAttribute("identity");
+        String id = request.getParameter("id");
         String name = request.getParameter("name");
         String idcard = request.getParameter("idcard");
-//        String identity = request.getParameter("identity");
+        String identity = request.getParameter("identity");
+//        String identity = (String) request.getAttribute("identity");
 //        System.out.println(id + " " + name + " " + idcard);
 //        identity = "student";
         AdminDao dao = new AdminDao();
