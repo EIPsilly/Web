@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class GetCollegeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
-
+        HttpSession session = request.getSession();
         DataDao dao = new DataDao();
         String identity = request.getParameter("identity");
         ArrayList<String> AllCollege = new  ArrayList<String>();
@@ -30,6 +31,10 @@ public class GetCollegeServlet extends HttpServlet {
         }
         String tmp = "[";
         for(String college : AllCollege) {
+            if(session.getAttribute("identity").equals("院级管理员") && session.getAttribute("college") != null
+            && session.getAttribute("college").equals(college)) {
+                continue;
+            }
             if(tmp.equals("[")) {
                 tmp += "\"" + college + "\"";
             }
