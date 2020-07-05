@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -24,8 +25,15 @@ public class BatchQueryServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         DataDao dao = new DataDao();
         String identity = request.getParameter("identity");
+        HttpSession sesson = request.getSession();
         if (identity.equals("student")) {
-            String Scollege = request.getParameter("Scollege");
+            String Scollege = null;
+            if(((String)sesson.getAttribute("identity")).equals("院级管理员")) {
+                Scollege = (String)sesson.getAttribute("college");
+            }
+            else {
+                Scollege = request.getParameter("Scollege");
+            }
             String Smajor = request.getParameter("Smajor");
             String Sclass = request.getParameter("Sclass");
             Pair<DateCheck, ArrayList<Student>> res = dao.GetDataOnStudent(Scollege,Smajor,Sclass);
@@ -40,7 +48,13 @@ public class BatchQueryServlet extends HttpServlet {
             out.print(tmp4 + "]");
         }
         else if (identity.equals("teacher")) {
-            String Tcollege = request.getParameter("Tcollege");
+            String Tcollege = null;
+            if(((String)sesson.getAttribute("identity")).equals("院级管理员")) {
+                Tcollege = (String)sesson.getAttribute("college");
+            }
+            else {
+                Tcollege = request.getParameter("Tcollege");
+            }
             Pair<DateCheck, ArrayList<Teacher>> res = dao.GetDataOnTeacher(Tcollege);
             DateCheck tmp1 = res.getKey();
             ArrayList<Teacher> tmp2 = res.getValue();

@@ -56,6 +56,8 @@ public class LoginServlet extends HttpServlet {
                     message = "院级管理员";
                     HttpSession session = request.getSession();
                     session.setAttribute("identity", message);
+                    Teacher t = dao.findTeacher(id,"","").get(0);
+                    session.setAttribute("college",t.getTcollege());
                     out.print("Administrator.jsp");
                 }
                 else if(res == 2) { // 校级管理员
