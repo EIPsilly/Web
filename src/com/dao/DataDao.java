@@ -48,7 +48,9 @@ public class DataDao extends BaseDao{
                     Tgreen++;
                 } else if ("red".equals(judge)) {
                     Tred++;
-                } else Tyellow++;
+                } else if ("yellow".equals(judge)){
+                    Tyellow++;
+                }
             }
             dateCheck.setTsum(Tsum);
             dateCheck.setTfinish(Tfinish);
@@ -80,7 +82,9 @@ public class DataDao extends BaseDao{
                     else if("red".equals(judge)) {
                         Sred++;
                     }
-                    else Syellow++;
+                    else if ("yellow".equals(judge)){
+                        Syellow++;
+                    }
                 }
                 dateCheck.setSsum(Ssum);
                 dateCheck.setSfinish(Sfinish);
@@ -234,7 +238,9 @@ public class DataDao extends BaseDao{
                 else if("red".equals(judge)) {
                     Sred++;
                 }
-                else Syellow++;
+                else if ("yellow".equals(judge)){
+                    Syellow++;
+                }
                 Student student = new Student();
                 student.setSid(rst.getString("Sid"));
                 student.setSname(rst.getString("Sname"));
@@ -290,7 +296,9 @@ public class DataDao extends BaseDao{
                 else if("red".equals(judge)) {
                     Tred++;
                 }
-                else Tyellow++;
+                else if ("yellow".equals(judge)){
+                    Tyellow++;
+                }
                 Teacher teacher = new Teacher();
                 teacher.setTid(rst.getString("Tid"));
                 teacher.setTname(rst.getString("Tname"));

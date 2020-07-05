@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class AdminDao extends BaseDao{
     //管理员登录
     public int LoginAdmin(String Aid, String Apassword) {
-    //0:登录失败,0:普通教师，1：院级管理员,2:校级管理员,3:系统管理员
+        //0:登录失败,0:普通教师，1：院级管理员,2:校级管理员,3:系统管理员
         String sqlStr = "SELECT Apassword, Arole FROM admin WHERE Aid = ?";
         try(Connection conn = dataSource.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sqlStr)) {
@@ -57,7 +57,7 @@ public class AdminDao extends BaseDao{
         return true;
     }
 
-   //删除管理员
+    //删除管理员
     public boolean DeleteAdmin(String Aid) {
         try(Connection conn = dataSource.getConnection();
             Statement st = conn.createStatement()){
@@ -246,7 +246,7 @@ public class AdminDao extends BaseDao{
     //教师删除
     public Boolean DeleteTeacher(String Tid) {
         try(Connection conn = dataSource.getConnection();
-                Statement st = conn.createStatement()){
+            Statement st = conn.createStatement()){
             st.setMaxRows(20);
             String sqlStr = "DELETE FROM teacher WHERE Tid = '" + Tid + "'";
             System.out.println(sqlStr);
