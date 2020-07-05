@@ -45,8 +45,7 @@ public class RecordServlet extends HttpServlet {
             ArrayList<Student> stulist = dao.findStudent(id,name,idcard);
             Student stu = stulist.get(0);
             if(stu.getStoday() == 1) {//已打卡
-                String message = "已打卡！";
-                out.print(message);
+                out.print("<!DOCTYPE html><html><body><script>alert(\"已打卡\"); window.location.href = \"/control.jsp\"</script></body></html>");
                 return;
             }
             else {
@@ -90,7 +89,7 @@ public class RecordServlet extends HttpServlet {
                 }
             }
             if(dao.ModifyStudent(stu)) {
-                System.out.println("修改成功");
+                System.out.println("打卡成功");
                 color = stu.getShealth();
                 Date d = new Date();
                 DateCheck today = dao2.GetDataByDate(d);
@@ -105,15 +104,17 @@ public class RecordServlet extends HttpServlet {
                     today.setSred(today.getSred() + 1);
                 }
                 if(dao2.UpdateData(today)) {
-                    out.print("修改成功");
+                    out.print("<!DOCTYPE html><html><body><script>alert(\"打卡成功\"); window.location.href = \"/control.jsp\"</script></body></html>");
+                    return;
                 }
                 else {
-                    out.print("总数据修改失败");
+                    System.out.print("导入数据失败");
                 }
             }
             else {
-                System.out.println("wu l ");
-                out.print("个人数据修改失败");
+//                System.out.println("wu l ");
+                out.print("<!DOCTYPE html><html><body><script>alert(\"打卡成功\"); window.location.href = \"/HealthyCode.jsp\"</script></body></html>");
+                return;
             }
         }
         else if(identity.equals("teacher")) {
@@ -122,8 +123,8 @@ public class RecordServlet extends HttpServlet {
             ArrayList<Teacher> tealist = dao.findTeacher(id,name,idcard);
             Teacher tea= tealist.get(0);
             if(tea.getTtoday() == 1) {//已打卡
-                String message = "已打卡！";
-                out.print(message);
+                out.print("<!DOCTYPE html><html><body><script>alert(\"已打卡\"); window.location.href = \"/control.jsp\"</script></body></html>");
+                return;
             }
             else {
                 tea.setTtoday(1);
@@ -179,14 +180,16 @@ public class RecordServlet extends HttpServlet {
                     today.setTred(today.getTred() + 1);
                 }
                 if(dao2.UpdateData(today)) {
-                    out.print("修改成功");
+                    out.print("<!DOCTYPE html><html><body><script>alert(\"打卡成功\"); window.location.href = \"/control.jsp\"</script></body></html>");
+                    return;
                 }
                 else {
-                    out.print("总数据修改失败");
+                    System.out.print("导入数据失败");
                 }
             }
             else {
-                out.print("个人数据修改失败");
+                out.print("<!DOCTYPE html><html><body><script>alert(\"打卡成功\"); window.location.href = \"/HealthyCode.jsp\"</script></body></html>");
+                return;
             }
 
         }
