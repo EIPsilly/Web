@@ -32,8 +32,6 @@ $(document).ready(
     }
 )
 
-// var stu_table,tea_table;
-
 $(document).ready(function () {
     $("#student").addClass("identity-select-check");
     $("#teacher").addClass("identity-select-nocheck");
@@ -45,6 +43,8 @@ $(document).ready(function () {
             $("#college").prop("value","");
             $("#Smajor").prop("value","");
             $("#Sclass").prop("value","");
+            $("#major").html("");
+            $("#class").html("");
         }
     );
 
@@ -52,6 +52,7 @@ $(document).ready(function () {
         function () {
             $("#Smajor").prop("value","");
             $("#Sclass").prop("value","");
+            $("#class").html("");
         }
     );
 
@@ -140,6 +141,8 @@ $(document).ready(function () {
             $("#bantch_identity").val("student");
             $("#queryone_identity").val("student");
             $("#Sno").html("学号");
+            $("#tea_statistc").css("display","none");
+            $("#stu_statistc").css("display","table-row");
             //更新学院选项
             $.ajax({
                 type: "get",
@@ -182,6 +185,8 @@ $(document).ready(function () {
             $("#bantch_identity").val("teacher");
             $("#queryone_identity").val("teacher");
             $("#Sno").html("工号");
+            $("#tea_statistc").css("display","table-row");
+            $("#stu_statistc").css("display","none");
             //更新学院选项
             $.ajax({
                 type: "get",
@@ -215,19 +220,17 @@ $(document).ready(function () {
                     var statistic = tmp[0];
                     var table = tmp[1];
                     if (identity == 0) {
-                        $("#totalnum").html(statistic.ssum);
-                        $("#greennum").html(statistic.sgreen);
-                        $("#yellownum").html(statistic.syellow);
-                        $("#rednum").html(statistic.sred);
-                        $("#finishnum").html(statistic.sfinish);
+                        $("#sgreennum").html(statistic.sgreen);
+                        $("#syellownum").html(statistic.syellow);
+                        $("#srednum").html(statistic.sred);
+                        $("#snonenum").html(statistic.ssum - statistic.sgreen - statistic.syellow - statistic.sred);
                         print_student(table);
                     }
                     else if (identity == 1) {
-                        $("#totalnum").html(statistic.tsum);
-                        $("#greennum").html(statistic.tgreen);
-                        $("#yellownum").html(statistic.tyellow);
-                        $("#rednum").html(statistic.tred);
-                        $("#finishnum").html(statistic.tfinish);
+                        $("#tgreennum").html(statistic.tgreen);
+                        $("#tyellownum").html(statistic.tyellow);
+                        $("#trednum").html(statistic.tred);
+                        $("#tnonenum").html(statistic.tsum - statistic.tgreen - statistic.tyellow - statistic.tred);
                         print_teacher(table);
                     }
                 },
@@ -248,17 +251,20 @@ $(document).ready(function () {
                 data: x,
                 url: "queryPeople.do",
                 success: function (result) {
-                    $("#totalnum").html("");
-                    $("#greennum").html("");
-                    $("#yellownum").html("");
-                    $("#rednum").html("");
-                    $("#finishnum").html("");
                     var table = jQuery.parseJSON(result);
                     if (identity == 0) {
                         print_student(table);
+                        $("#sgreennum").html("");
+                        $("#syellownum").html("");
+                        $("#srednum").html("");
+                        $("#snonenum").html("");
                     }
                     else if (identity == 1) {
                         print_teacher(table);
+                        $("#tsgreennum").html("");
+                        $("#tsyellownum").html("");
+                        $("#tsrednum").html("");
+                        $("#tsnonenum").html("");
                     }
                 },
                 error: function (e) {
@@ -302,6 +308,7 @@ $(document).ready(function () {
         }
     );
 
+    //用于修改的ajax
     function modify_ajax(x){
         $.ajax({
             type: "post",
@@ -318,6 +325,7 @@ $(document).ready(function () {
         })
     }
 
+    //修改管理员密码
     $("#modify_password").click(
         function () {
             var x = $("#modify_password_from").serializeArray();
@@ -325,6 +333,7 @@ $(document).ready(function () {
         }
     )
 
+    //修改教师信息
     $("#modify_teacher").click(
         function () {
             var x = $("#modify_tea_from").serializeArray();
@@ -332,6 +341,7 @@ $(document).ready(function () {
         }
     )
 
+    //修改学生信息
     $("#modify_student").click(
         function () {
             var x = $("#modify_stu_from").serializeArray();
@@ -339,6 +349,7 @@ $(document).ready(function () {
         }
     )
 
+    //修改具有教师和管理员双重身份的信息
     $("#modify_A_tea").click(
         function () {
             if ($("#check_pass").prop('checked') == true){
@@ -350,6 +361,7 @@ $(document).ready(function () {
         }
     )
 
+    //是否修改密码
     $("#check_pass").change(
         function () {
             if ($("#check_pass").prop('checked') == false){

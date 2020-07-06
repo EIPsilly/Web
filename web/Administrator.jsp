@@ -304,11 +304,17 @@
                 <th>红码</th>
                 <th>未打卡</th>
             </tr>
-            <tr>
-                <th id = "greennum"></th>
-                <th id = "yellownum"></th>
-                <th id = "rednum"></th>
-                <th id = "nonenum"></th>
+            <tr id = "stu_statistc">
+                <th id = "sgreennum"></th>
+                <th id = "syellownum"></th>
+                <th id = "srednum"></th>
+                <th id = "snonenum"></th>
+            </tr>
+            <tr id = "tea_statistc" style="display: none">
+                <th id = "tgreennum"></th>
+                <th id = "tyellownum"></th>
+                <th id = "trednum"></th>
+                <th id = "tnonenum"></th>
             </tr>
         </table>
     </div>
