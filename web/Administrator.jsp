@@ -237,7 +237,7 @@
         <p>单个查询</p>
         <ul>
             <li>
-                <p>学号</p>
+                <p id = "Sno">学号</p>
                 <input type="text" name = "Sid" id = "Sid" placeholder = "请输入学号">
             </li>
             <li>

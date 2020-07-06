@@ -139,6 +139,7 @@ $(document).ready(function () {
             $("#college").attr("value","");
             $("#bantch_identity").val("student");
             $("#queryone_identity").val("student");
+            $("#Sno").html("学号");
             //更新学院选项
             $.ajax({
                 type: "get",
@@ -180,6 +181,7 @@ $(document).ready(function () {
             $("#college").attr("value","");
             $("#bantch_identity").val("teacher");
             $("#queryone_identity").val("teacher");
+            $("#Sno").html("工号");
             //更新学院选项
             $.ajax({
                 type: "get",
